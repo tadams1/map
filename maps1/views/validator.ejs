@@ -1,0 +1,122 @@
+	<html>
+	<title>Validator</title>
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script type="text/javascript">
+
+
+
+		function addColumn(val, r) {
+			var c = $('<td>').attr({
+				class: 'col-lg-1'
+			});
+			c.append(val);
+			c.appendTo(r);
+		}
+
+		function buildPage() {
+
+
+			var records;      
+			records = <%- records %>;
+			var c = $('<table>').attr({
+				class: "table table-striped table-bordered"
+			});
+
+			var hr = $('<tr>').attr({
+				class: "row"
+			});
+
+			addColumn('type', hr);
+			addColumn('typeid', hr);
+			addColumn('typetext',hr);
+			addColumn('title',hr);
+			addColumn('comment',hr);
+			addColumn('link',hr);
+			addColumn('name',hr);
+			addColumn('email',hr);
+			addColumn('validate',hr);
+
+			hr.appendTo(c);
+
+			for(var i=0;i<records.length;i++) {
+				var r = $('<tr>').attr({
+					class: "row"
+				});
+
+				addColumn(records[i].properties.type, r);
+				addColumn(records[i].properties.typeid, r);
+				addColumn(records[i].properties.typetext,r);
+				addColumn(records[i].properties.title,r);
+				addColumn(records[i].properties.comment,r);
+				addColumn(records[i].properties.link,r);
+				addColumn(records[i].properties.yourname,r);
+				addColumn(records[i].properties.youremail,r);
+
+
+				var iname = $("<input>").attr({
+					id: "validatorchk" + i,
+					type: "checkbox",
+					actionid: records[i]._id,
+					checked: true
+				});
+				var cchk = $('<td>').attr({
+					class: 'col-lg-1'
+				});
+				iname.appendTo(cchk);
+				cchk.appendTo(r);
+				r.appendTo(c);
+			}
+			c.appendTo($('#thediv'));
+
+
+
+			$("#validator").click(function(){
+				var valid = [];
+				var invalid = [];	
+				for(var i=0;i<records.length;i++) {
+					if($('#validatorchk' + i).prop('checked')){
+						valid.push($('#validatorchk' + i).attr('actionid'));
+					} else {
+						invalid.push($('#validatorchk' + i).attr('actionid'));
+					}
+				}
+				var newJSON = {
+					"valid": valid, 
+					"invalid": invalid
+				}
+				console.log(JSON.stringify(newJSON));
+				$.ajax({
+					type: 'POST',
+					url: 'validator',
+					data: JSON.stringify(newJSON),
+					success: function(data) { 
+						console.log('data: ' + data); 
+						location.reload();
+					},
+					contentType: "application/json",
+					dataType: 'json'
+				});
+
+			});
+		}
+
+		$(document).ready(buildPage);
+
+
+	</script>
+	<body>
+		<div id="thediv"></div>
+		<button id="validator" class="valid-btn">Validate</button>
+		
+	</body>
+	</html>
+
+
+
+
+

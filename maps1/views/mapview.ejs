@@ -1,0 +1,692 @@
+<html>
+  <title>Shorebird Conservation Map | BirdLife Australia</title>
+
+     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ6LMGS6ebrYR_ABSnMfudwc7sgwgoTWg"></script>   
+     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
+
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+      var theMap;
+      var theMarker;
+
+      var pageInfo;
+      var formattedAddr;
+      var infowindow;
+      var yourname;
+      var sbarea;
+      var youremail;
+      
+
+      function initialize() {
+ 	      
+        var mapOptions = {
+          zoom: 4,
+          center: {lat: -28, lng: 137.883},
+    		  mapTypeId: google.maps.MapTypeId.TERRAIN,
+          streetViewControl: false
+  		  };
+
+        theMap = new google.maps.Map(document.getElementById('map'), mapOptions);
+        theMap.data.setStyle(function(feature) {
+          return {icon:feature.getProperty('icon')};
+        });
+
+        pageInfo = <%- pageInfo %>;
+        var view = <%- view %> ;
+        var infowindow = new google.maps.InfoWindow();
+
+        theMap.data.addListener('click', function(event) {
+          if(event.feature == null) {
+            infowindow.close();
+            return;
+          }  
+          var d = new Date(event.feature.getProperty("datesaved"));
+          var myHTML = "Theat type: " + event.feature.getProperty("typetext") + "<br>" + "Dave Saved: " + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<p>" + "Details: " + event.feature.getProperty("comment").substr(1,100) + "<p>";
+
+          if(event.feature.getProperty("link").length > 0) {
+            myHTML += "Link to futher details:   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><p>";
+          }
+
+          myHTML += "Logged by: " + event.feature.getProperty("yourname");
+
+          infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
+          infowindow.setPosition(event.latLng);
+          infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+          infowindow.open(theMap);
+        });
+
+        yourname = localStorage.getItem('yourname');
+        youremail = localStorage.getItem('youremail');
+
+
+        
+        theMap.data.loadGeoJson(pageInfo.mapprefix + '/maps?type=ALL');
+        //theMap.data.loadGeoJson('n');
+
+        sbarea = new google.maps.FusionTablesLayer({
+        map: theMap,
+        heatmap: { enabled: false },
+        query: {
+          select: "col133",
+          from: "1-n3pOFdEKjunwq__ZG8uCr1L2c28OwKdJKE_fc2i",
+          where: ""
+        },
+        options: {
+            styleId: 2,
+            templateId: 2
+          }
+        });
+
+
+        theMap.addListener('dragend', function() {
+          if(theMarker != null) {
+           if(theMarker.getMap() == theMap) {
+              theMarker.setPosition(theMap.getCenter());
+            }
+          }
+        });
+
+        theMap.addListener('zoom_changed', function() {
+          if(theMarker != null) {
+           if(theMarker.getMap() == theMap) {
+              theMarker.setPosition(theMap.getCenter());
+            }
+          }
+        });
+
+        if(view =='threat' || view  == 'action') {  
+          doViewThreats(view);
+        } else {
+          doViewRecords();
+        }
+
+
+      }
+
+
+    function loadThreat(geotype) {
+      removeAll();
+      theMap.data.loadGeoJson(pageInfo.mapprefix + '/maps?type=ALLTYPE&types=' + geotype)
+
+    }
+
+    function buildPage(thename, thearray) {
+      var tchk = $('#' + thename + 'typechk');
+
+      var theList = $('<ul class="view-checkbox"></ul>');
+      var sa = $('<li></li>');
+      sa.append('<input type="checkbox" id="' + thename + 'selectall" checked /><label for="' + thename + 'selectall">Select All</label>');
+      theList.append(sa);
+      for(var i = 0; i < thearray.length; i++) {
+          if(thearray[i].type == thename) {
+            var theItem = $('<li></li>');
+            var chkbox=$('<input/>').attr({
+              type: "checkbox",
+              title: thearray[i].title,
+              id: thename + i,
+              checked: true,
+              value: thearray[i].id ,
+              onclick: 'updateJSON(this,"' + thearray[i].id + '","' +  thearray[i].type + '")',
+              class: thename + 'group'
+            });
+
+            var lbl=$("<label>").attr('for', thename + i).text(thearray[i].text)
+            
+            chkbox.appendTo(theItem);
+            lbl.appendTo(theItem);
+            
+            if(!(typeof thearray[i].title === "undefined")) {
+            var img = $('<img>').attr({
+              class: "imgTest",
+              src: "images/inf.png",
+              textinfo: thearray[i].title
+            });
+              img.appendTo(theItem);
+            }  
+
+   
+           
+
+            theList.append(theItem);
+          }
+      }
+      tchk.append(theList);      
+    }
+
+    function lookupLocation(){
+        var request = new XMLHttpRequest();
+        var method = 'GET';
+        var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+theMarker.position.lat()+','+theMarker.position.lng()+'&sensor=true';
+        var async = true;
+
+        request.open(method, url, async);
+        request.onreadystatechange = function(){
+          if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            formattedAddr = address.formatted_address;
+            $("label[id='location']").text('Location: ' + formattedAddr);
+          }
+        };
+        request.send();
+    }
+
+  function saveLocation(savetype) {
+    yourname = $( '#' + savetype + 'yourname').val();
+    youremail = $( '#' + savetype + 'emailaddr').val();
+
+    localStorage.setItem('yourname', yourname);
+    localStorage.setItem('youremail', youremail);
+    var cmt = $('textarea#' + savetype + 'comment').val();
+
+    var dt = new Date();   
+     var newJSON = {
+          "type": "Feature",
+          "properties": {
+            "type": savetype,
+            "typeid": $('#select'+savetype + ' option:selected').val(),
+            "typetext": $('#select'+savetype + ' option:selected').text(),
+            "comment": cmt,
+            "icon": "images/" + savetype + "marker.png",
+            "link": $( '#' + savetype + 'linkaddr').val(),
+            "validated": false,
+            "yourname": yourname,
+            "youremail": youremail,
+            "datesaved":  new Date($('#' + savetype + 'date').val())
+          },
+          "geometry": 
+          {
+            "type": "Point",
+            "coordinates": [theMarker.position.lng(), theMarker.position.lat()]
+          }
+        }
+        $.ajax({
+            type: 'POST',
+            url: 'mapview',
+            data: JSON.stringify(newJSON),
+            success: function(data) { alert('data: ' + data); },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+
+      showOverlay(savetype);
+    }
+
+
+    function findMe(updatemarker) {
+      $("#imgoverlay").show();
+      
+       if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            theMap.setCenter(pos);
+            theMap.setZoom(13);
+            if(updatemarker) {
+              theMarker.setPosition(pos);      
+              lookupLocation();
+            }
+             $("#imgoverlay").hide();
+         }, function() {
+              $("#imgoverlay").hide();
+          });
+      }
+    }
+
+
+    function buildSelector(theselector, thename, thearray) {
+      for(var i = 0; i < thearray.length; i++) {
+          if(thearray[i].type == thename) {
+            theselector.append($('<option>', {
+                value: thearray[i].id,
+                text: thearray[i].text,
+                title: thearray[i].title
+            }));
+          }
+      } 
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    function updateJSON(chkbox, dbtype, type2) {
+      if(type2=='layer') {
+        var v = eval(dbtype);
+
+        if(chkbox.checked) {
+          v.setMap(theMap);
+        } else {
+          v.setMap(null);
+        }
+      } else {
+        if(chkbox.checked) {
+          theMap.data.loadGeoJson(pageInfo.mapprefix + '/maps?type='+ dbtype);
+        }else{
+          var callback=function(feature) {
+            
+            if(feature.getProperty('typeid') == dbtype) {
+              theMap.data.remove(feature);
+            }
+          };
+          theMap.data.forEach(callback);
+        }
+      }
+    }
+
+    function addMarker() {
+      if(theMarker == null) {
+        theMarker = new google.maps.Marker({
+          map: theMap,
+          draggable: true,
+          animation: google.maps.Animation.DROP,
+          position: {lat: -28.327, lng: 137.067},
+          icon: 'images/marker.png'
+        });
+      } else {
+        theMarker.setMap(theMap);
+      }
+      theMarker.addListener('click', toggleBounce);
+      theMarker.addListener('dragend',lookupLocation);
+    }
+
+    function toggleBounce() {
+      if (theMarker.getAnimation() !== null) {
+        theMarker.setAnimation(null);
+      } else {
+        theMarker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
+    function removeAll() {
+      var callback=function(feature) {
+        theMap.data.remove(feature);
+      };
+      theMap.data.forEach(callback);
+    }
+
+   function removeByType(theType) {
+      var callback=function(feature) {
+        if(feature.getProperty('type')== theType || (theType=='layer' && feature.getGeometry().getType() == 'Polygon')) {
+          theMap.data.remove(feature);
+        }
+      };
+      theMap.data.forEach(callback);
+    }
+
+    function resetPane() {
+      if($("#accordion").length) {
+          $("#accordion").accordion("destroy");    // Removes the accordion bits
+          $("#accordion").empty();
+          $("#accordion").remove(); 
+        }
+
+      if($("#threatfrm").length) {
+        $("#threatfrm").empty();
+        $('#threatfrm').remove();
+      }
+
+      if($("#actionfrm").length) {
+        $("#actionfrm").empty();
+        $('#actionfrm').remove();
+      }
+    }
+
+    function doViewRecords() {
+
+      $('#records').addClass('active');
+        $('#logthreat').removeClass('active'); 
+        $('#logaction').removeClass('active');
+      resetPane();
+
+        if(theMarker != null) {
+          theMarker.setMap(null);
+        }
+
+      var pos = {lat: -28, lng: 137.883};
+      theMap.setCenter(pos);
+      theMap.setZoom(4);
+
+      var newdiv = $("<div id='accordion' class='accordion'><div>");
+      newdiv.appendTo('#rightpane');
+
+      $('#accordion').append('<div><h3>Actions<img src="images/actionmarker.png" /></h3><div id="actiontypechk"></div></div><div><h3>Threats <img src="images/threatmarker.png" /></h3><div id="threattypechk"></div></div><div><h3>Layers</h3><div id="layertypechk"</div></div>');
+      $( "#accordion" ).accordion({
+        header: "> div > h3",
+        collapsible: true,
+        active: false,
+        autoHeight: true,
+        heightStyle: "content" 
+      });
+     
+      buildPage('threat', pageInfo.types);
+      buildPage('action', pageInfo.types);
+      buildPage('layer', pageInfo.types);      
+      $( "#accordion" ).accordion("option","active",0);
+
+
+      newdiv.append('<img id="imgoverlay" src="images/spin.gif" /><p>');
+      $("#imgoverlay").hide();
+     
+      var r=$('<input/>').attr({
+          type: "button",
+          id: "find",
+          value: 'Zoom to your location',
+          onclick: 'findMe(false)',
+          class: 'btn-danger'
+      });
+      newdiv.append(r);
+
+      current = "R";
+    }
+
+
+    function showOverlay(savetype) {
+      var overlaydiv = $('<div id="overlay" class="overlay1"><div>');
+      var btnClose =$('<a></a>').attr({
+          class: "boxclose",
+          id: "boxclose"
+      });
+      overlaydiv.append(btnClose)
+
+      overlaydiv.append("<h3>Thank you, your record has been saved!</h3><p>");
+      overlaydiv.append("<h4>Please share with your social networks:<h4><p>");
+
+      
+
+
+      var networks = ['<a class="soc-twitter" href="http://twitter.com/?status=How+to+pre-populate+%23social+%23media+%23share+%23buttons+%23tutorial+http://bit.ly/8504xO+from+@birdlifeoz+%23content+%23marketing+%23idea"></a>', 
+                      '<a class="soc-facebook" href="http://www.facebook.com/share.php?u=http://www.ecocene.com.au/map/about"></a>', 
+                      '<a class="soc-google" href="https://plus.google.com/share?url=http://www.ecocene.com.au/map/about"></a>'
+                                           ];
+      var soclist = $('<ul class="soc"></ul>');
+      for(var n = 0; n < networks.length; ++n) {
+        var sa = $('<li></li>');
+        sa.append(networks[n]);
+        soclist.append(sa);
+
+      }
+      overlaydiv.append(soclist);
+
+      overlaydiv.append("<h4><a href='http://birdlife.org.au/campaigns/how-you-can-help'>Or find out how else you can take action to help Australia’s birds</a><h4><p>");
+
+
+
+
+      overlaydiv.appendTo(document.body)
+
+      btnClose.click(function() {
+          $("#overlay").empty();
+          $('#overlay').remove();
+          if(theMarker != null) {
+            theMarker.setMap(null);
+          }
+          loadThreat(savetype);
+      });
+    }
+
+    Date.prototype.toDateInputValue = (function() {
+      var local = new Date(this);
+      local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+      return local.toJSON().slice(0,10);
+    });
+
+    function doViewThreats(threattype) {
+
+      $('#records').removeClass('active');
+      $('#log' + threattype).addClass('active');
+      if(threattype == 'action') {
+        $('#logthreat').removeClass('active'); 
+      } else {
+        $('#logaction').removeClass('active');
+      }
+      addMarker();
+      resetPane();
+      loadThreat(threattype);
+
+      var newdiv = $('<div id="' + threattype + 'pane" class=addthreat"></div');
+      var theform = $('<form id="' + threattype +'frm"></form>');
+      newdiv.appendTo(theform)
+      theform.appendTo('#rightpane');
+      
+      newdiv.append('<h4>1. Find your location</h4><p>');
+
+      newdiv.append('<img id="imgoverlay" src="images/spin.gif" /><p>');
+      $("#imgoverlay").hide();
+     
+      var r=$('<input/>').attr({
+          type: "button",
+          id: "find",
+          value: 'Find your location',
+          onclick: 'findMe(true)',
+          class: 'btn-danger'
+      });
+      newdiv.append(r);
+
+      var l =$('<label>/>').attr({
+        id: "location",
+      });
+      l.text('Or drag the marker on the map. Zoom in and out using your mouse or +/- the buttons on themap.');
+      newdiv.append(l);
+
+
+      newdiv.append("<h4>2. Enter " + threattype + " details</h4>");
+      var l1 = $('<label>').attr('for', 'select' + threattype).text("Please select the " + threattype + " type:");
+      var selector = $("<select id='select" + threattype + "' class=  ></select>");
+      selector.appendTo(l1);
+
+      buildSelector(selector, threattype, pageInfo.types);
+      newdiv.append(l1);
+
+      var img = $('<img>').attr({
+          class: "imgTest",
+          id: "theImg",
+          src: "images/inf.png",
+          textinfo: "WHOA"
+        });
+      img.appendTo(newdiv);
+      
+
+      $('#rightpane').on('change', '#select' + threattype, function(){
+        //$('#theImg').attr('textinfo', $('option:selected', this).attr('title'));
+      });
+
+
+      var l2 = $('<label>').attr('for', threattype + 'comment').text("Let us know a bit more about your observation (in 100 characters or less)");
+      var ta = $('<textarea>').attr({
+        name: "Description",
+        id: threattype + 'comment',
+        value: '',
+        rows: 2,
+        cols: 1
+      });
+      ta.appendTo(l2);
+      newdiv.append(l2);
+
+      var l3a = $('<label>').attr('for', threattype + 'date').text('Date ');
+      var idate = $('<input>').attr({
+        type: "date",
+        name: "thedate",
+        id: threattype + 'date',
+        value: new Date().toDateInputValue()
+      });
+      idate.appendTo(l3a);
+      newdiv.append(l3a);
+
+      var l4 = $('<label>').attr('for', threattype + 'linkaddr').text('Link to further information (optional)');
+      var ilink = $('<input>').attr({
+        type: "input",
+        name: "linkddr",
+        id: threattype + 'linkaddr'
+      });
+      ilink.appendTo(l4);
+      newdiv.append(l4);
+
+      var str1 = yourname;
+      if(yourname == null) {
+        str1 = ""
+      }
+
+      var l5 = $('<label>').attr('for', threattype + 'yourname').text('Your name ');
+      var iname = $("<input>").attr({
+          name: "yourname",
+          id: threattype + 'yourname',
+          required: true,
+          value: str1
+      });
+      iname.appendTo(l5);
+      newdiv.append(l5);
+  
+      var str2 = youremail;
+      if(youremail == null) {
+        str2 = ""
+      }
+      
+      var l6 = $('<label>').attr('for', threattype + 'emailaddr').text('Your email ');
+      var ename = $("<input>").attr({
+          type: "email",
+          name: "emailaddr",
+          id: threattype + 'emailaddr',
+          value: str2,
+          required: true
+      });
+      ename.appendTo(l6);
+      newdiv.append(l6);  
+    
+      newdiv.append("<br>"); 
+      var b=$('<input/>').attr({
+          type: "submit",
+          id: "save",
+          value: 'Save ' + threattype,
+          class: 'btn-danger'
+      });
+      newdiv.append(b);
+  }
+
+    $(document).on('submit','#actionfrm',function(){
+      saveLocation('action');
+      return false;
+    })
+    
+    $(document).on('submit','#threatfrm',function(){
+      saveLocation('threat');
+      return false;
+    })
+
+    $(document).on('change','[id$="selectall"]' , function() {
+      var theType = this.id.substring(0, this.id.length -9);
+      removeByType(theType);
+      $("." + theType + "group").prop('checked',false);
+      if($(this).prop("checked")) {
+        $("." + this.id.substring(0, this.id.length -9) + "group").trigger('click');
+      }
+    });
+
+     $(function () {
+      $( document ).tooltip({
+      items: "img, [textinfo]",
+      content: function() {
+        var element = $( this );
+        if ( element.is( "[textinfo]" ) ) {
+          var text = element.attr( "textinfo" ); //element.text();
+          return text;
+        }
+        if ( element.is( "[title]" ) ) {
+          return element.attr( "title" );
+        }
+
+      }
+    });
+  });
+
+
+
+
+</script>
+
+
+<header>
+
+  <div id="header-container">
+
+   <h1 id="title">Shorebird Conservation Map</h1>
+
+        <nav>
+         <ul class="nav nav-pills">
+          <li role="presentation" id='records'><a href="mapview">Home</a></li>
+          <li role="presentation" id='logaction'><a href="mapview?view=action">Register an action</a></li>
+          <li role="presentation" id='logthreat'><a href="mapview?view=threat">Log a threat</a></li>
+        </ul>
+            </nav>
+        
+
+</div>
+    </header>
+
+
+  <body>
+  <div class="wrapper">
+    <div class="inner-wrapper">
+        <div class="center pane" id="map">
+          </div>
+    <div id="rightpane">
+    </div>
+
+        
+</div>
+
+<footer>
+
+<div id="footer-container-1">
+    <div class="container-fluid">
+      <div class="row">
+         <div class="col-sm-12">Shorebirds need your help. Act now to protect the species and places at risk. <a href="http://birdlife.org.au/campaigns/how-you-can-help" class="btn btn-default btn-sm">Get involved</a> or <a href="http://www.birdlife.org.au/current-appeal" class="btn btn-default btn-sm">Donate</a> 
+        </div>
+      </div>
+    </div>
+ </div>
+
+   <div id="footer-container-2">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-8"><img src="images/birdlife-australia-logo.png" alt="BirdLife Australis"> <br>Brought to you by <a href="www.birdlife.org.au">BirdLife Australia</a>, the nation’s premier independent bird conservation organisation.</div>
+          <div class="col-sm-4">
+            <h4>Follow the flock</h4>
+            <ul class="soc">
+              <li>
+                <a class="soc-twitter" href="https://twitter.com/BirdlifeOz"></a>
+              </li>
+              <li>
+                <a class="soc-facebook" href="https://www.facebook.com/BirdLifeAustralia"></a>
+              </li>
+              <li>
+                <a class="soc-google" href="https://plus.google.com/112350676933876368379/posts"></a>
+              </li>
+              <li>
+                <a class="soc-youtube" href="https://www.youtube.com/channel/UCTKLS4Otm3PmpTBGv3nEC6A"></a>
+              </li>
+              <li>
+                <a class="soc-instagram soc-icon-last" href="https://www.instagram.com/birdlifeoz/"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <div id="footer-container-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">Site by <a href="www.ecocene.com.au">Ecocene Solutions</a></div>
+          </div>
+        </div>
+
+</div>
+
+      </footer>
+        </div>
+
+
+</body>
+</html> 	

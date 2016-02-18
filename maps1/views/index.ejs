@@ -1,0 +1,372 @@
+<html>
+  <title>Shorebird Maps</title>
+  <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ6LMGS6ebrYR_ABSnMfudwc7sgwgoTWg"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript">
+
+      var theMap;
+      var thePoints;
+      var theMarker;
+      var formattedAddr;
+      var pageInfo;
+
+      $(function() {
+        $( "#accordion" ).accordion({ beforeActivate: function(event, ui) {
+            if(ui.newHeader.text()=="Step 3: Review and Submit") {
+              $("label[id='threatlocation']").text('Location: ' + formattedAddr);
+              $("label[id='threattype']").text('Threat Description: ' + $("input[name=threatgroup]:checked").attr("displayvalue"));
+              $("label[id='threatcomment']").text('Comment: ' + $("textarea#threatcomment").val());
+            }
+          }
+        }); 
+      });
+
+      $(function() {
+        $( "#accordion2" ).accordion({ beforeActivate: function(event, ui) {
+            if(ui.newHeader.text()=="Step 3: Review and Submit") {
+              $("label[id='actionlocation']").text('Location: ' + formattedAddr);
+              $("label[id='actiontype']").text('Threat Description: ' + $("input[name=actiongroup]:checked").attr("displayvalue"));
+              $("label[id='actioncomment']").text('Comment: ' + $("textarea#actioncomment").val());
+            }
+          }
+        }); 
+      });
+      
+      $(function() {
+        $( "#tabs" ).tabs({ beforeActivate: function(event, ui) {
+            if(ui.newPanel.attr('id')=="tabs-1") {
+              addPoints();
+            }else{
+             clearPoints();
+             addMarker();
+            } 
+          }
+        }); 
+      });
+
+      function openNextAccordionPanel() {
+        var current = $( "#accordion" ).accordion("option","active"),
+        maximum = $( "#accordion" ).find("h3").length,
+        next = current+1 === maximum ? 0 : current+1;
+        // $accordion.accordion("activate",next); // pre jQuery UI 1.10
+        $( "#accordion" ).accordion("option","active",next);
+      }
+
+      function initialize() {
+ 	      
+        var mapOptions = {
+          zoom: 4,
+          center: {lat: -28, lng: 137.883},
+    		  mapTypeId: google.maps.MapTypeId.TERRAIN
+  		  };
+
+        theMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+      
+        //theMap.data.addGeoJson(<%- points %>);
+        thePoints = <%- points %>;
+        pageInfo = <%- pageInfo %>;
+   	    theMap.data.addGeoJson(<%- polygons %>);
+        //theMap.data.loadGeoJson("http://localhost:3000/maps?geotype=Point&type=OffLeashDogs")
+  
+/*theMap.data.addListener('dblclick', function(event) {
+          var myHTML = event.feature.getProperty("infobox");
+          infowindow.setContent("<div style='width:150px; text-align: center;'>"+myHTML+"</div>");
+          //alert(JSON.stringify(event.feature.getGeometry().getArray().getArray()));
+          infowindow.setPosition(event.latLng);
+          infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+          infowindow.open(theMap);
+        });*/
+ 
+        theMap.addListener('click', function(event) {
+          var infowindow = new google.maps.InfoWindow();
+          var myHTML = event.Feature.getProperty("type") + "<p>" + "Type: " +  event.Feature.getProperty("typetext") + "<p>" + "Comment: " +  event.Feature.getProperty("comment");
+
+          infowindow.setContent("<div style='width:150px; text-align: center;'>" + myHTML + "</div>");
+          infowindow.setPosition(event.latLng);
+          infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+          infowindow.open(theMap);
+        });
+
+        var callback=function(feature) {
+          theMap.data.setStyle(function(feature) {
+          return {icon:feature.getProperty('icon')};
+        });
+
+        
+      }
+        
+      buildPage('threat', pageInfo.types);
+      buildPage('action', pageInfo.types);
+      
+      theMap.data.forEach(callback);
+    }
+
+    function buildPage(thename, thearray) {
+      var topt = $('#' + thename + 'type');
+      var tchk = $('#' + thename + 'typechk');
+      topt.append('<ul class="' + thename + '-checkbox">');
+      tchk.append('<ul class="' + thename + '-checkbox">');
+      var theList = $('<ul class="' + thename + '-checkbox"></ul>');
+      var theList2 = $('<ul class="' + thename + '-checkbox"></ul>');
+      
+      for(var i = 0; i < thearray.length; i++) {
+          if(thearray[i].type == thename) {
+            var theItem = $('<li></li>');
+            var theItem2 = $('<li></li>');
+            topt.append('<input type="radio" name="' + thename + 'group" displayvalue="' + thearray[i].text + '" value="' + thearray[i].id + '">' + thearray[i].text + "</input>");
+
+
+            tchk.append('<input type="checkbox" onclick=updateJSON(this,"Point","' + thearray[i].id + '") + id="' + thename  + i + '" value="' + thearray[i].id + '" /><label for="' + thename + i + '">' + thearray[i].text + '</label>');
+            theList.append(theItem);
+            theList2.append(theItem2);
+          }
+      }
+    }
+
+    function addLocation() {
+      lookupLocation();
+      $( ".selector" ).accordion( "option", "active", 2 );
+    }
+    
+    function saveThreat() {
+      saveLocation('threat');
+    }
+
+    function saveAction() {
+      saveLocation('action');
+    }
+
+
+
+    function saveLocation(savetype) {
+     var newJSON = {
+          "type": "Feature",
+          "properties": {
+            "type": savetype,
+            "typeid": $('input[name=' + savetype + 'group]:checked').attr("value"),
+            "typetext": $('input[name=' + savetype + 'group]:checked').attr("displayvalue"),
+            "comment": $('textarea#' + savetype + 'comment').val(),
+            "icon": "images/" + savetype + "marker.png"
+          },
+          "geometry": 
+          {
+            "type": "Point",
+            "coordinates": [theMarker.position.lng(), theMarker.position.lat()]
+          }
+        }
+
+      
+        $.ajax({
+            type: 'POST',
+            url: '/',
+            data: JSON.stringify(newJSON),
+            success: function(data) { alert('data: ' + data); },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+
+          alert('Congratulations, your record has been saved!');
+  
+        //theMap.data.addGeoJson(newJSON);
+    }
+
+    function addMarker() {
+      if(theMarker == null) {
+        theMarker = new google.maps.Marker({
+          map: theMap,
+          draggable: true,
+          animation: google.maps.Animation.DROP,
+          position: {lat: -28.327, lng: 137.067}
+        });
+      } else {
+        theMarker.setMap(theMap);
+      }
+      theMarker.addListener('click', toggleBounce);
+    }
+
+    function toggleBounce() {
+      if (theMarker.getAnimation() !== null) {
+        theMarker.setAnimation(null);
+      } else {
+        theMarker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
+     function lookupLocation(){
+        var request = new XMLHttpRequest();
+        var method = 'GET';
+        var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+theMarker.position.lat()+','+theMarker.position.lng()+'&sensor=true';
+        var async = true;
+
+        request.open(method, url, async);
+        request.onreadystatechange = function(){
+          if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            formattedAddr = address.formatted_address;
+          }
+        };
+        request.send();
+        openNextAccordionPanel();
+    }
+
+    function findMe() {
+       if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            theMarker.setPosition(pos);      
+            theMap.setCenter(pos);
+            theMap.setZoom(13);
+         }, function() {
+          });
+      }
+    }
+
+    function removeAll() {
+      var callback=function(feature) {
+        theMap.data.remove(feature);
+      };
+      theMap.data.forEach(callback);
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    function clearPoints() {
+        theMap.data.forEach(function(feature) {
+          theMap.data.remove(feature);
+        });
+        if(theMarker != null) {
+          theMarker.setMap(null);
+        }
+    }
+
+    function addPoints() {
+      var fc = {
+        "type": "FeatureCollection",
+        "features": []
+      }
+      for(var i = 0; i < thePoints.features.length; i++) {
+        if($('input[value=' + thePoints.features[i].properties.type + ']').is(":checked")) {
+          fc.features.push(thePoints.features[i]);
+        }
+      }
+      clearPoints();
+      theMap.data.addGeoJson(fc);
+    }
+
+    function loadThreat(geotype) {
+      removeAll();
+      theMap.data.loadGeoJson('http://localhost:3000/maps?geotype=ALLTYPE&types=' + geotype)
+    }
+
+    function updateJSON(chkbox, geotype) {
+      if(chkbox.checked) {
+        theMap.data.loadGeoJson('http://localhost:3000/maps?geotype=' + geotype);
+      }else{
+        var callback=function(feature) {
+          
+          if(feature.getProperty('type') == dbtype) {
+            theMap.data.remove(feature);
+          }
+        };
+        theMap.data.forEach(callback);
+      }
+    }
+
+    $(document).ready(function() {
+      $('input[type=checkbox]').change(function() {
+        if($(this).is(":checked")) {
+            alert($(this).attr("displayvalue"));
+        }
+    });
+  });
+</script>
+
+
+<body>
+  <div id="tabs" class="tab-panel">
+    <ul>
+      <li><a href="#tabs-1">View Records</a></li>
+      <li><a href="#tabs-2">Log a Threat</a></li>
+      <li><a href="#tabs-3">Log an Action</a></li>
+    </ul>
+    <div id="tabs-1">
+      <div id="threat-tab1" class="threat-panel1">
+        <p>Threats</p>
+       <div id='threattypechk'></div>
+      </div>
+      <div id="threat-tab2" class="threat-panel2">
+        <p>Actions</p>
+        <div id='actiontypechk'></div>
+      </div>
+    </div>
+    <div id="tabs-2">
+      <div id="accordion">
+        <h3>Step 1: Location</h3>
+          <div>
+            <p> Where did you observe the threat to shorebirds and/or their habitat?</p>
+            <p><b>Drag the marker on the map to select the location</b></p>
+
+            <p><input type="button" value="Find my location" onclick="findMe()"></p>
+            <p><input type="button" value="Save and continue" onclick="addLocation()"></p>
+          </div>
+        <h3>Step 2: Details</h3>
+          <div>
+            <p>What type of threat did you observer?</p>
+            <div id="threattype" class="threat-checkbox"></div>
+            <p><label>Please let us know a bit more about your observation (optional)<br><textarea name="Description" id="threatcomment" value="" rows="2" cols="50" id="desc"></textarea></label></p>
+            <p><input type="button" value="Save and continue" onclick="openNextAccordionPanel()"></p>
+ 
+          </div>
+        <h3>Step 3: Review and Submit</h3>
+          <div>
+            <ul>
+              <li><label id="threatlocation"></label></li>
+              <li><label id="threattype"></label></li>
+              <li><label id="threatcomment"></label></li>
+            <ul>
+            <p><input type="button" value="Save and continue" onclick="saveThreat()"></p>
+          </div>
+      </div>
+    </div>
+    <div id="tabs-3">
+      <div id="accordion2">
+        <h3>Step 1: Location</h3>
+          <div>
+            <p> Where did you observe the action to shorebirds and/or their habitat?</p>
+            <p><b>Drag the marker on the map to select the location</b></p>
+ 
+             <p><input type="button" value="Find my location" onclick="findMe()"></p>
+
+            
+            <p><input type="button" value="Save and continue" onclick="addLocation()"></p>
+
+          </div>
+        <h3>Step 2: Details</h3>
+          <div>
+            <p>What type of action did you observer?</p>
+            <div id="actiontype" class="threat-checkbox"></div>
+            <p><label>Please let us know a bit more about your observation (optional)<br><textarea name="Description" id="actioncomment"value="" rows="2" cols="50" id="desc"></textarea></label></p>
+            <p><input type="button" value="Save and continue" onclick="openNextAccordionPanel()"></p>
+
+          </div>
+        <h3>Step 3: Review and Submit</h3>
+          <div>
+            <ul>
+              <li><label id="actionlocation"></label></li>
+              <li><label id="actiontype"></label></li>
+              <li><label id="actioncomment"></label></li>
+            <ul>
+            <p><input type="button" value="Save and continue" onclick="saveAction()"></p>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="right-panel" id="map-canvas"></div> 
+</body>
+</html> 	
