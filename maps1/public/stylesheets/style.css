@@ -176,6 +176,7 @@ ul.view-checkbox li label {
 label {
   font-weight:normal !important;  
   color: #494949;
+  overflow: auto;
 }
 
 .vrthreat-panel1
