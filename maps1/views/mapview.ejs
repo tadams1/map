@@ -19,10 +19,10 @@
   var yourname;
   var sbarea;
   var youremail;
-  
+
 
   function initialize() {
-    
+
     var mapOptions = {
       zoom: 4,
       center: {lat: -28, lng: 137.883},
@@ -62,7 +62,7 @@
     youremail = localStorage.getItem('youremail');
 
 
-    
+
     theMap.data.loadGeoJson(pageInfo.mapprefix + '/maps?type=ALL');
         //theMap.data.loadGeoJson('n');
 
@@ -147,8 +147,8 @@
               img.appendTo(lbl);
             }  
 
-            
-            
+
+
 
             theList.append(theItem);
           }
@@ -181,7 +181,6 @@
         localStorage.setItem('yourname', yourname);
         localStorage.setItem('youremail', youremail);
         var cmt = $('textarea#' + savetype + 'comment').val();
-
         var dt = new Date();   
         var newJSON = {
           "type": "Feature",
@@ -218,7 +217,7 @@
 
       function findMe(updatemarker) {
         $("#imgoverlay").show();
-        
+
         if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -264,7 +263,7 @@
             theMap.data.loadGeoJson(pageInfo.mapprefix + '/maps?type='+ dbtype);
           }else{
             var callback=function(feature) {
-              
+
               if(feature.getProperty('typeid') == dbtype) {
                 theMap.data.remove(feature);
               }
@@ -358,7 +357,7 @@
           autoHeight: true,
           heightStyle: "content" 
         });
-        
+
         buildPage('threat', pageInfo.types);
         buildPage('action', pageInfo.types);
         buildPage('layer', pageInfo.types);      
@@ -367,7 +366,7 @@
 
         newdiv.append('<img id="imgoverlay" src="images/spin.gif" /><p>');
         $("#imgoverlay").hide();
-        
+
         var r=$('<input/>').attr({
           type: "button",
           id: "find",
@@ -392,7 +391,7 @@
         overlaydiv.append("<h4>Thank you, your record has been saved!</h3><p>");
         overlaydiv.append("<p>Help us spread the word about the plight of migratory shorebirds by sharing this map with your social networks:<p>");
 
-        
+
 
 
         var networks = ['<a class="soc-twitter" href="https://twitter.com/home?status=I’ve+just+added+to+the+@BirdlifeOz+%23Shorebird+Conservation+Map!+Check+it+out+%26+show+your+%23love4shorebirds+today"></a>', 
@@ -448,12 +447,12 @@
         var theform = $('<form id="' + threattype +'frm"></form>');
         newdiv.appendTo(theform)
         theform.appendTo('#rightpane');
-        
+
         newdiv.append('<h4>1. Find your location</h4><p>');
 
         newdiv.append('<img id="imgoverlay" src="images/spin.gif" /><p>');
         $("#imgoverlay").hide();
-        
+
         var r=$('<input/>').attr({
           type: "button",
           id: "find",
@@ -485,7 +484,7 @@
           textinfo: "WHOA"
         });
         img.appendTo(newdiv);
-        
+
 
         $('#rightpane').on('change', '#select' + threattype, function(){
         //$('#theImg').attr('textinfo', $('option:selected', this).attr('title'));
@@ -496,6 +495,7 @@
         var ta = $('<textarea>').attr({
           name: "Description",
           id: threattype + 'comment',
+          maxlength: 100,
           value: '',
           rows: 2,
           cols: 1
@@ -536,12 +536,12 @@
         });
         iname.appendTo(l5);
         newdiv.append(l5);
-        
+
         var str2 = youremail;
         if(youremail == null) {
           str2 = ""
         }
-        
+
         var l6 = $('<label>').attr('for', threattype + 'emailaddr').text('Your email ');
         var ename = $("<input>").attr({
           type: "email",
@@ -552,7 +552,7 @@
         });
         ename.appendTo(l6);
         newdiv.append(l6);  
-        
+
         newdiv.append("<br>"); 
         var b=$('<input/>').attr({
           type: "submit",
@@ -567,7 +567,7 @@
         saveLocation('action');
         return false;
       })
-      
+
       $(document).on('submit','#threatfrm',function(){
         saveLocation('threat');
         return false;
@@ -618,7 +618,7 @@
           <li role="presentation" id='logthreat'><a href="mapview?view=threat">Log a threat</a></li>
         </ul>
       </nav>
-      
+
 
     </div>
   </header>
