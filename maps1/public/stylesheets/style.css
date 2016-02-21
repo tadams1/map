@@ -121,7 +121,7 @@ textarea{
   margin: 10px;
   border: 3px solid #cccccc;
   padding: 5px;
-  font-size: 8px;
+  font-size: 12px;
 }
 
 [type=text] 
@@ -506,4 +506,6 @@ a.boxclose{
   height:60%;
   overflow: auto;
 }
+
+
 
