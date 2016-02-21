@@ -512,6 +512,14 @@ a.boxclose{
   font-family: arial;
 }
 
+.overlay-ul {
+}
+
+.overlay-li {
+  font-family: Times;
+  font-size: 12px;
+}
+
 .btn-danger {
   font-family: arial;
 }
