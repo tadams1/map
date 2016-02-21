@@ -365,7 +365,8 @@
         $( "#accordion" ).accordion("option","active",0);
 
 
-        newdiv.append('<img id="imgoverlay" src="images/spin.gif" /><p>');
+        
+        $('#rightpane').append('<img id="imgoverlay" src="images/spin.gif" /><p>');
         $("#imgoverlay").hide();
         
         var r=$('<input/>').attr({
@@ -375,14 +376,17 @@
           onclick: 'findMe(false)',
           class: 'btn-danger'
         });
-        newdiv.append(r);
+        $('#rightpane').append(r);
 
+        $('#rightpane').append("<br><br>");
         newdiv.append('<br><br>');
         var lnk = $('<a>').attr({
-          href: '#popup1'
+          href: '#popup1',
+          class: 'linkstyle'
         }).text('Disclaimer');
 
-        newdiv.append(lnk);
+        
+        $('#rightpane').append(lnk);
         current = "R";
       
 
@@ -474,7 +478,7 @@
         var l =$('<label>/>').attr({
           id: "location",
         });
-        l.text('Or drag the marker on the map. Zoom in and out using your mouse or +/- the buttons on themap.');
+        l.text('Or drag the marker on the map. Zoom in and out using your mouse or +/- the buttons on the map.');
         newdiv.append(l);
 
 
@@ -486,7 +490,7 @@
         buildSelector(selector, threattype, pageInfo.types);
         newdiv.append(l1);
 
-
+ newdiv.append('<br>');
 
      
         var lnk = $('<a>').attr({
@@ -503,7 +507,7 @@
 
 
 
-        var l2 = $('<label>').attr('for', threattype + 'comment').text("Let us know a bit more about your observation (in 100 characters or less)");
+        var l2 = $('<label>').attr('for', threattype + 'comment').text("Describe your observation (<100 characters)");
         var ta = $('<textarea>').attr({
           name: "Description",
           id: threattype + 'comment',
@@ -524,7 +528,7 @@
         idate.appendTo(l3a);
         newdiv.append(l3a);
 
-        var l4 = $('<label>').attr('for', threattype + 'linkaddr').text('Link to further information (optional)');
+        var l4 = $('<label>').attr('for', threattype + 'linkaddr').text('Link to further information (optional) ');
         var ilink = $('<input>').attr({
           type: "input",
           name: "linkddr",
@@ -620,7 +624,7 @@
 
       <div id="header-container">
 
-       <h1 id="title">Shorebird Conservation Map</h1>
+       <h1 id="title">Shorebird Conservation Map (BETA)</h1>
 
        <nav>
          <ul class="nav nav-pills">
@@ -651,8 +655,7 @@
        <div id="footer-container-2">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-12"><p>This is a beta verion of a map that will be published on a page <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">within the BirdLife Australia website.</a></p>
-              <p>Please tell us what you think by <a href="https://www.surveymonkey.com/r/FJ9TL86">completing this short questionnaire</a>.</p>
+            <div class="col-sm-12"><p>This is a beta verion of a map that will be published on a page <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">within the BirdLife Australia website.</a> Please tell us what you think by <a href="https://www.surveymonkey.com/r/FJ9TL86">completing this short questionnaire</a>.</p>
               <a href="https://www.surveymonkey.com/r/FJ9TL86" class="btn btn-warning" role="button">Provide feedback now</a>
               <br>
 
