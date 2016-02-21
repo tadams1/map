@@ -1,88 +1,3 @@
-/* unknown use styles! 
-
-body {
-  padding: 10px;
-  font: 8px "Times New Roman";
-}
-
-
-
-a {
-  color: #00B7FF;
-}
-
-*/
-
-/* unknown use styles! */
- 
-/*
-
-
-
-html, body {
-    height: 100%;
-}
-
-/* header - not used?
-
-
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 150;
-    background-color: #bfcfec;
-}
-
-.leftimage1 {
-  width: 50%;
-  height: 100%;
-  float: left;
- 
-}
-
-
-.rightimage1 {
-  width: 50%;
-  height: 100%;
-  float: left;
-  text-align: right;
- 
-}
-
-
-
-#header-container{
-  background-color:#428BCA;
-  height:90px;
-  width: 100%;
-  border-bottom:0px solid #494949;
-  margin-bottom:0px;
-  -webkit-box-shadow:0 40px 40px -40px #AAA;
-     -moz-box-shadow:0 40px 40px -40px #AAA;
-          box-shadow:0 40px 40px -40px #AAA;
-}
-
- */
- 
-
-
- 
- 
- /* HEADER */
- 
- /* #feedback-container{
-  background-color:#32cd32;
-  height:30px;
-  width: 100%;
-  border-bottom:2px solid #494949;
-  margin-bottom:0px;
-  text-align: center;
-}
- */
-
-
  #header-container{
   background-color:#FFFFF;
   height: 80px;
@@ -90,18 +5,6 @@ html, body {
   border-bottom: 0px solid #362E2C;
   margin-bottom:0px;
 }
-
-/*not used?
-
-h2, h3{
-  margin:30px 0;
-}
-
-#, h2, h3{
-  font-weight:normal; 
-}
-
-*/
 
 #title{
   font-size: 25px;
@@ -139,8 +42,8 @@ h2 span {
 }
 
 h3{
-  font-size: 40px;
-   color:#0086C9;
+  font-size:16px; 
+   color:#0088BB;
 }
 
 h4 { 
@@ -151,38 +54,6 @@ h4 {
 
 
 }
- /* ?? 
-
-nav ul, nav ul li{
-  display:inline;
-}*/
-
-
- /* ?? 
-nav a{
-  font-family: 'Ubuntu', cursive;
-  padding:20px;
-  color:white;
-  text-decoration:none;
-  background-color:#0789B4;
-}
-
-*/
-
-
-
-/* unused
-
-.wrapper {
-    position:absolute;
-    top: 90px;
-    right: 0;
-    bottom: 15%;
-    left: 0;
-    background-color: fuchsia;
-}
- */
- 
 
  /* BODY */ 
  
@@ -200,9 +71,9 @@ nav a{
 .center.pane .inner {
     display: table;
     width: 100%;
-    height: 60%;
+    height: 70%;
     margin-right: 10px;
-    border-bottom:0px solid #494949;
+    border-bottom:1px solid #494949;
     border-top:1px solid #494949;
 }
 .pane {
@@ -283,22 +154,29 @@ ul.view-checkbox  {
 ul.view-checkbox li input { 
   padding: 5px; 
   margin-right: 5px;
-  margin-left: 10px;
- 
+  
+  float: left;
 } 
 
 ul.view-checkbox li { 
   border: 1px transparent solid; 
-  display:inline-block;
+  display: block;
   width:20em;
-  font-size: 12px;
+  font-size: 14px;
   font-family: "Arial";
- 
 } 
 
 ul.view-checkbox li label { 
   margin-left: ; 
+  color: #494949;
+  display: block;
+  font-weight:normal !important;
 } 
+
+label {
+  font-weight:normal !important;  
+  color: #494949;
+}
 
 .vrthreat-panel1
 {
@@ -331,23 +209,6 @@ ul.view-checkbox li label {
     float:right; 
 }
 
-label {
-    color: #494949;
-    font-weight:normal !important;
-}
-
-
-/*
-#body-container-1 {
-  background-color: #494949;
-  height: 35px;
-  border-top: 0px solid #494949;
-  margin-top: 0px;
-  padding-top: 5px;
-  text-align: center;
-  color: #FFFFFF;
-}
-*/
 
 /* FOOTER */
 
@@ -509,75 +370,6 @@ label {
     background-color: #88685a;
 }
 
-/* Not used
-body{
-  font-family:font-family: Ubuntu, sans-serif;
-}
-
-/* Not used
-
-
-aside{
-  color:#444;
-  padding:20px;
-  float:right;
-  height:500px;
-  width:200px;
-  display: block;
-  background-color:#E8DCC0;
-  margin-bottom:50px;
-  -webkit-box-shadow:0 0px 40px -10px #AAA;
-     -moz-box-shadow:0 0px 40px -10px #AAA;
-          box-shadow:0 0px 40px -10px #AAA; 
-}
-
-
-#main aside p { width:180px; font-size:13px; }
-#main p{
-  font:16px/1.35em;
-  width:100%;
-  padding-bottom: 2em;
-  text-shadow:none;
-}
-
-*/
-
-/* Not used
-
-#main header h2{
-  padding-bottom:0px;
-  line-height: 1em;
-}
-
-#main header p {
-  font-size: 14px;
-  margin: 0;
-  padding: 0;
-}
-
-
-
-
-.container {
-    position: relative;
-    width: 100%;
-}
-.container div {
-    height: 100%;
-}
-
-
-.column-left {
-    width: 60%;
-    left: 0;
-    position: absolute;
-}
-.column-right {
-    width: 40%;
-    right: 0;
-    position: absolute;
-}
- */
 
 /* Overlay */
 
@@ -603,7 +395,7 @@ aside{
   min-height: 0; /* support: IE7 */
   font-size: 16px;
   font-family: "Arial";
-  color:#0086C9;
+  color:#0088BB;
   
 }
 .ui-accordion .ui-accordion-icons {
@@ -637,9 +429,6 @@ a.boxclose{
     cursor:pointer;
 }
 
-/* body {
-  font: 14px/1.4 arial;
-}*/
 
 .selectorclass
 {
@@ -650,3 +439,15 @@ a.boxclose{
 {
   padding: .2em;
 }
+
+.InfoPopup
+{
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #333;
+  position: absolute;
+  width: 100%;
+  z-index: 1999;
+  height: 100%;
+  top: 0px;
+  display: block;
+} 
