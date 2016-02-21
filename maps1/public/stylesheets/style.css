@@ -116,11 +116,11 @@ h4 {
 }
 
 textarea{
-  width: 90%;
-  height: 75px;
-  margin: 10px;
-  border: 3px solid #cccccc;
-  padding: 5px;
+  width: 95%;
+  height: 55px;
+  margin: 5px;
+  border: 1x solid #cccccc;
+  padding: 2px;
   font-size: 12px;
 }
 
@@ -412,6 +412,7 @@ a.boxclose{
 .ui-accordion .ui-accordion-icons {
   padding-left: 2.2em;
 }
+
 .ui-accordion .ui-accordion-icons .ui-accordion-icons {
   padding-left: 2.2em;
 }
@@ -428,7 +429,7 @@ a.boxclose{
   padding: 1em 0.1em;
   border-top: 0;
   overflow: auto;
-}
+}f
 
 
 
@@ -507,6 +508,10 @@ a.boxclose{
   overflow: auto;
 }
 
+.linkstyle {
+  font-family: arial;
+}
+
 .overlay-ul {
 }
 
@@ -515,4 +520,6 @@ a.boxclose{
   font-size: 12px;
 }
 
-
+.btn-danger {
+  font-family: arial;
+}
