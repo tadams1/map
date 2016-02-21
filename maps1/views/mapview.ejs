@@ -376,7 +376,15 @@
         });
         newdiv.append(r);
 
+        newdiv.append('<br><br>');
+        var lnk = $('<a>').attr({
+          href: '#popup1'
+        }).text('Disclaimer');
+
+        newdiv.append(lnk);
         current = "R";
+      
+
       }
 
 
@@ -407,7 +415,7 @@
         }
         overlaydiv.append(soclist);
 
-        overlaydiv.append("<p><a href='http://birdlife.org.au/campaigns/how-you-can-help'>Or find out how else you can take action to help Australia’s birds</a></p><p>");
+        overlaydiv.append("<br><br><p>Or find out how else you can<a href='http://birdlife.org.au/campaigns/how-you-can-help'> take action to help Australia’s birds</a></p><p>");
 
 
 
@@ -477,18 +485,18 @@
         buildSelector(selector, threattype, pageInfo.types);
         newdiv.append(l1);
 
-        var img = $('<img>').attr({
-          class: "imgTest",
-          id: "theImg",
-          src: "images/inf.png",
-          textinfo: "WHOA"
-        });
-        img.appendTo(newdiv);
+        var lnk = $('<a>').attr({
+          href: '#popup1'
+        }).text(threattype.charAt(0).toUpperCase() + threattype.slice(1) + ' types');
+        lnk.appendTo(newdiv);
+        newdiv.append('<br><br>');
 
-
+        
         $('#rightpane').on('change', '#select' + threattype, function(){
         //$('#theImg').attr('textinfo', $('option:selected', this).attr('title'));
       });
+
+
 
 
         var l2 = $('<label>').attr('for', threattype + 'comment').text("Let us know a bit more about your observation (in 100 characters or less)");
@@ -640,10 +648,25 @@
        <div id="footer-container-2">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-12"><p>This is a beta verion of a map that will be published the the BirdLife website <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">on this page.</a></p>
+            <div class="col-sm-12"><p>This is a beta verion of a map that will be published on a page <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">within the BirdLife Australia website.</a></p>
               <p>Please tell us what you think by <a href="https://www.surveymonkey.com/r/FJ9TL86">completing this short questionnaire</a>.</p>
               <a href="https://www.surveymonkey.com/r/FJ9TL86" class="btn btn-warning" role="button">Provide feedback now</a>
               <br>
+
+  
+<div id="popup1" class="overlap">
+  <div class="popup">
+    <a class="close" href="#">×</a>
+    <div class="content">
+    <p><b>Site disclaimer</b></p>
+<p>The information and material hosted on the Shorebird Conservation Map (“Map”) is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. BirdLife Australia takes no responsibility for, and provides no warranty as to the accuracy or reliability of the information contained in the Map or any external site to which a link has been made from the Map. While every effort is made to ensure that the information presented on the Map is up to date and correct, BirdLife Australia is unable to individually verify the information contained within and accepts no responsibility for any errors and omissions contained in the information, or if the information is not current. The material may include the views or recommendations of third parties and does not necessarily reflect the views of BirdLife Australia or indicate a commitment to a particular course of action. For further information, please see our full site disclaimer (http://birdlife.org.au/site-disclaimer/). </p>
+    </div>
+  </div>
+</div>
+
+
+
+
               <br>
             </div>
           </div>
