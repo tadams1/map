@@ -45,19 +45,18 @@
             return;
           }  
           var d = new Date(event.feature.getProperty("datesaved"));
-          var myHTML = "Theat type: " + event.feature.getProperty("typetext") + "<br>" + "Dave Saved: " + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<p>" + "Details: " + event.feature.getProperty("comment").substr(1,100) + "<p>";
+          var myHTML = "<b>Threat type: </b>" + event.feature.getProperty("typetext") + "<br>" + "<b>Dave Saved: </b>" + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<br>" + "<b>Details: </b>" + event.feature.getProperty("comment").substr(1,100) + "<br>";
 
           if(event.feature.getProperty("link").length > 0) {
-            myHTML += "Link to futher details:   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><p>";
+            myHTML += "<b>Link to futher details:</b>   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><br>";
           }
 
-          myHTML += "Logged by: " + event.feature.getProperty("yourname");
-
-          infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
-          infowindow.setPosition(event.latLng);
-          infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
-          infowindow.open(theMap);
-        });
+          myHTML += "<b>Logged by: </b>" + event.feature.getProperty("yourname");
+            infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
+            infowindow.setPosition(event.latLng);
+            infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+            infowindow.open(theMap);
+          });
 
         yourname = localStorage.getItem('yourname');
         youremail = localStorage.getItem('youremail');
@@ -145,7 +144,7 @@
               src: "images/inf.png",
               textinfo: thearray[i].title
             });
-              img.appendTo(theItem);
+              img.appendTo(lbl);
             }  
 
    
