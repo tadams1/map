@@ -18,6 +18,7 @@
   var infowindow;
   var yourname;
   var sbarea;
+  var scount;
   var youremail;
 
 
@@ -72,6 +73,20 @@
           query: {
             select: "col133",
             from: "1-n3pOFdEKjunwq__ZG8uCr1L2c28OwKdJKE_fc2i",
+            where: ""
+          },
+          options: {
+            styleId: 2,
+            templateId: 2
+          }
+        });
+
+       scount = new google.maps.FusionTablesLayer({
+          map: map,
+          heatmap: { enabled: false },
+          query: {
+            select: "col117",
+            from: "1m877intBkyS-gQyAOK0Saxxn3j6tI_kZngubB4mi",
             where: ""
           },
           options: {
