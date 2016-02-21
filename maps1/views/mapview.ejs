@@ -247,6 +247,20 @@
         } 
       }
 
+      function buildOverlay(thename, thearray) {
+        var sa = $('<ul></ul>').attr({
+          class: 'overlay-ul'
+        });
+        for(var i = 0; i < thearray.length; i++) {
+            var theItem = $('<li></li>').attr({
+              class: 'overlay-li'
+            });
+            theItem.append('<b>' + thearray[i].id + ": </b>" + thearray[i].title);
+            theItem.appendTo(sa);
+        }
+        $('#popupcontent').append(sa);
+      }
+
       google.maps.event.addDomListener(window, 'load', initialize);
 
       function updateJSON(chkbox, dbtype, type2) {
@@ -483,10 +497,11 @@
         selector.appendTo(l1);
 
         buildSelector(selector, threattype, pageInfo.types);
+        buildOverlay(threattype, pageInfo.types);
         newdiv.append(l1);
 
         var lnk = $('<a>').attr({
-          href: '#popup1'
+          href: '#popup2'
         }).text(threattype.charAt(0).toUpperCase() + threattype.slice(1) + ' types');
         lnk.appendTo(newdiv);
         newdiv.append('<br><br>');
@@ -660,6 +675,15 @@
     <div class="content">
     <p><b>Site disclaimer</b></p>
 <p>The information and material hosted on the Shorebird Conservation Map (“Map”) is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. BirdLife Australia takes no responsibility for, and provides no warranty as to the accuracy or reliability of the information contained in the Map or any external site to which a link has been made from the Map. While every effort is made to ensure that the information presented on the Map is up to date and correct, BirdLife Australia is unable to individually verify the information contained within and accepts no responsibility for any errors and omissions contained in the information, or if the information is not current. The material may include the views or recommendations of third parties and does not necessarily reflect the views of BirdLife Australia or indicate a commitment to a particular course of action. For further information, please see our full site disclaimer (http://birdlife.org.au/site-disclaimer/). </p>
+    </div>
+  </div>
+</div>
+
+
+<div id="popup2" class="overlap">
+  <div class="popup">
+    <a class="close" href="#">×</a>
+    <div  id="popupcontent" class="content1">
     </div>
   </div>
 </div>

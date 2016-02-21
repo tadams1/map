@@ -507,5 +507,12 @@ a.boxclose{
   overflow: auto;
 }
 
+.overlay-ul {
+}
+
+.overlay-li {
+  font-family: Times;
+  font-size: 12px;
+}
 
 
