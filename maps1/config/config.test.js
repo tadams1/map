@@ -8,4 +8,5 @@ config.mapprefix = 'http://www.ecocene.com.au/map'
 config.mongodb = {};
 config.mongodb.url = 'mongodb://skzm:Phone123@ds047095.mongolab.com:47095/skzmbird';
 config.mongodb.col = 'test1';
+config.mongodb.pageinfo = 'pageinfo';
 config.listenport = 49500;

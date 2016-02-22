@@ -16,7 +16,8 @@
   var pageInfo;
   var formattedAddr;
   var infowindow;
-  var yourname;
+  var firstname;
+  var lastname;
   var sbarea;
   var scount;
   var youremail;
@@ -46,20 +47,21 @@
         return;
       }  
       var d = new Date(event.feature.getProperty("datesaved"));
-      var myHTML = "<b>Threat type: </b>" + event.feature.getProperty("typetext") + "<br>" + "<b>Dave Saved: </b>" + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<br>" + "<b>Details: </b>" + event.feature.getProperty("comment").substr(1,100) + "<br>";
+      var myHTML = "<b>" + event.feature.getProperty('type').charAt(0).toUpperCase() +  event.feature.getProperty('type').slice(1) +  " type: </b>" + event.feature.getProperty("typetext") + "<br>" + "<b>Dave saved: </b>" + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<br>" + "<b>Details: </b>" + event.feature.getProperty("comment").substr(1,100) + "<br>";
 
       if(event.feature.getProperty("link").length > 0) {
         myHTML += "<b>Link to futher details:</b>   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><br>";
       }
 
-      myHTML += "<b>Logged by: </b>" + event.feature.getProperty("yourname");
+      myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname");
       infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
       infowindow.setPosition(event.latLng);
       infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
       infowindow.open(theMap);
     });
 
-    yourname = localStorage.getItem('yourname');
+    firstname = localStorage.getItem('firstname');
+    lastname = localStorage.getItem('lastname');
     youremail = localStorage.getItem('youremail');
 
 
@@ -190,10 +192,12 @@
       }
 
       function saveLocation(savetype) {
-        yourname = $( '#' + savetype + 'yourname').val();
+        firstname = $( '#' + savetype + 'firstname').val();
+        lastname = $( '#' + savetype + 'lastname').val();
         youremail = $( '#' + savetype + 'emailaddr').val();
 
-        localStorage.setItem('yourname', yourname);
+        localStorage.setItem('firstname', firstname);
+        localStorage.setItem('lastname', lastname);
         localStorage.setItem('youremail', youremail);
         var cmt = $('textarea#' + savetype + 'comment').val();
         var dt = new Date();   
@@ -207,7 +211,8 @@
             "icon": "images/" + savetype + "marker.png",
             "link": $( '#' + savetype + 'linkaddr').val(),
             "validated": false,
-            "yourname": yourname,
+            "lastname": lastname,
+            "firstname": firstname,
             "youremail": youremail,
             "datesaved":  new Date($('#' + savetype + 'date').val())
           },
@@ -267,11 +272,13 @@
           class: 'overlay-ul'
         });
         for(var i = 0; i < thearray.length; i++) {
+          if(thearray[i].type == thename && thearray[i].title != undefined) {            
             var theItem = $('<li></li>').attr({
               class: 'overlay-li'
             });
-            theItem.append('<b>' + thearray[i].id + ": </b>" + thearray[i].title);
+            theItem.append('<b>' + thearray[i].text + ": </b>" + thearray[i].title);
             theItem.appendTo(sa);
+          }
         }
         $('#popupcontent').append(sa);
       }
@@ -521,6 +528,12 @@
 
         newdiv.append('<br>');
 
+        var img = $('<img>').attr({
+          class: "imgInfo",
+          src: "images/inf.png"
+        });
+        img.appendTo(newdiv);
+        newdiv.append(' ');
         var lnk = $('<a>').attr({
           href: '#popup2'
         }).text(threattype.charAt(0).toUpperCase() + threattype.slice(1) + ' types');
@@ -532,14 +545,12 @@
         //$('#theImg').attr('textinfo', $('option:selected', this).attr('title'));
       });
 
-
-
-
         var l2 = $('<label>').attr('for', threattype + 'comment').text("Describe your observation (<100 characters)");
         var ta = $('<textarea>').attr({
           name: "Description",
           id: threattype + 'comment',
           maxlength: 100,
+          required: true,
           value: '',
           rows: 2,
           cols: 1
@@ -566,20 +577,36 @@
         ilink.appendTo(l4);
         newdiv.append(l4);
 
-        var str1 = yourname;
-        if(yourname == null) {
+        var str1 = firstname;
+        if(firstname == null) {
           str1 = ""
         }
 
-        var l5 = $('<label>').attr('for', threattype + 'yourname').text('Your name ');
+        var l5 = $('<label>').attr('for', threattype + 'firstname').text('First name ');
         var iname = $("<input>").attr({
-          name: "yourname",
-          id: threattype + 'yourname',
+          name: "firstname",
+          id: threattype + 'firstname',
           required: true,
           value: str1
         });
         iname.appendTo(l5);
         newdiv.append(l5);
+
+
+        var str1 = lastname;
+        if(lastname == null) {
+          str1 = ""
+        }
+
+        var l5a = $('<label>').attr('for', threattype + 'lastname').text('Last name ');
+        var inamelast = $("<input>").attr({
+          name: "lastname",
+          id: threattype + 'lastname',
+          required: true,
+          value: str1
+        });
+        inamelast.appendTo(l5a);
+        newdiv.append(l5a);
 
         var str2 = youremail;
         if(youremail == null) {
