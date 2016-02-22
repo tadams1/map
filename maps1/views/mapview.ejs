@@ -278,6 +278,7 @@
             });
             theItem.append('<b>' + thearray[i].text + ": </b>" + thearray[i].title);
             theItem.appendTo(sa);
+
           }
         }
         $('#popupcontent').append(sa);
@@ -437,7 +438,10 @@
         overlaydiv.append(btnClose)
 
         overlaydiv.append("<h4>Thank you, your record has been saved!</h3><p>");
-        overlaydiv.append("<p>Help us spread the word about the plight of migratory shorebirds by sharing this map with your social networks:<p>");
+
+        overlaydiv.append("<hp>To register a conservation issue with BirdLife Australia directly, please <a href='http://goo.gl/forms/enO53Sihph'>complete this form </a>so we can gather a little more information. <p>");
+
+        overlaydiv.append("<p><b>Help us spread the word about the plight of migratory shorebirds by sharing this map with your social networks:</b><p>");
 
 
 
@@ -455,7 +459,7 @@
         }
         overlaydiv.append(soclist);
 
-        overlaydiv.append("<br><br><p>Or find out how else you can<a href='http://birdlife.org.au/campaigns/how-you-can-help'> take action to help Australia’s birds</a></p><p>");
+        overlaydiv.append("<br><p>Or find out how else you can<a href='http://birdlife.org.au/campaigns/how-you-can-help'> take action to help Australia’s birds</a></p><p>");
 
 
 
@@ -632,6 +636,18 @@
           class: 'btn-danger'
         });
         newdiv.append(b);
+
+        var p1 = $('<p>').attr({
+          class: 'text-muted'
+        }).text('Your last name and email address will not be published. We may use your email address to contact you for further details about your observation. Read the map ');
+
+        var lnk = $('<a>').attr({
+          href: '#popup1',
+          class: 'linkstyle'
+        }).text('disclaimer.');
+
+        p1.append(lnk);
+        newdiv.append(p1);        
       }
 
       $(document).on('submit','#actionfrm',function(){
@@ -711,8 +727,9 @@
        <div id="footer-container-2">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-12"><p>This is a beta verion of a map that will be published on a page <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">within the BirdLife Australia website.</a> Please tell us what you think by <a href="https://www.surveymonkey.com/r/FJ9TL86">completing this short questionnaire</a>.</p>
-              <a href="https://www.surveymonkey.com/r/FJ9TL86" class="btn btn-warning" role="button">Provide feedback now</a>
+            <div class="col-sm-12"><p>This is a beta version of a map that will be published on a page <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">within the BirdLife Australia website.</a> Please tell us what you think by <a href="https://www.surveymonkey.com/r/FJ9TL86" target="_blank">completing this short questionnaire</a>. 
+            <p><b>All data is for demonstration purposes only and will be cleared before the map is made publicy available.</b></p>
+              <a href="https://www.surveymonkey.com/r/FJ9TL86" class="btn btn-warning" role="button" target="_blank">Provide feedback now</a>
               <br>
 
   
@@ -720,8 +737,8 @@
   <div class="popup">
     <a class="close" href="#">×</a>
     <div class="content">
-    <p><b>Site disclaimer</b></p>
-<p>The information and material hosted on the Shorebird Conservation Map (“Map”) is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. BirdLife Australia takes no responsibility for, and provides no warranty as to the accuracy or reliability of the information contained in the Map or any external site to which a link has been made from the Map. While every effort is made to ensure that the information presented on the Map is up to date and correct, BirdLife Australia is unable to individually verify the information contained within and accepts no responsibility for any errors and omissions contained in the information, or if the information is not current. The material may include the views or recommendations of third parties and does not necessarily reflect the views of BirdLife Australia or indicate a commitment to a particular course of action. For further information, please see our full site disclaimer (http://birdlife.org.au/site-disclaimer/). </p>
+    <p><b>Map disclaimer</b></p>
+<p>The information and material hosted on the Shorebird Conservation Map (“Map”) is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. BirdLife Australia takes no responsibility for, and provides no warranty as to the accuracy or reliability of the information contained in the Map or any external site to which a link has been made from the Map. While every effort is made to ensure that the information presented on the Map is up to date and correct, BirdLife Australia is unable to individually verify the information contained within and accepts no responsibility for any errors and omissions contained in the information, or if the information is not current. The material may include the views or recommendations of third parties and does not necessarily reflect the views of BirdLife Australia or indicate a commitment to a particular course of action. For further information, please see our  <a href=http://birdlife.org.au/site-disclaimer>full site disclaimer</a>. </p>
     </div>
   </div>
 </div>
