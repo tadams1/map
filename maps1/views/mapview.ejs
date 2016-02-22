@@ -251,12 +251,15 @@
         var sa = $('<ul></ul>').attr({
           class: 'overlay-ul'
         });
-        for(var i = 0; i < thearray.length; i++) {
-            var theItem = $('<li></li>').attr({
-              class: 'overlay-li'
-            });
-            theItem.append('<b>' + thearray[i].id + ": </b>" + thearray[i].title);
-            theItem.appendTo(sa);
+        for(var i = 0; i < thearray.length; i++) { 
+          if(thearray[i].type == thename) {
+
+              var theItem = $('<li></li>').attr({
+                class: 'overlay-li'
+              });
+              theItem.append('<b>' + thearray[i].id + ": </b>" + thearray[i].title);
+              theItem.appendTo(sa);
+          }
         }
         $('#popupcontent').append(sa);
       }
@@ -590,6 +593,18 @@
           class: 'btn-danger'
         });
         newdiv.append(b);
+
+        var p1 = $('<p>').attr({
+          class: 'text-muted'
+        }).text('Your last name and email address will not be published. We may use your email address to contact you for further details about your observation. Read the full site ');
+
+        var lnk = $('<a>').attr({
+          href: '#popup1',
+          class: 'linkstyle'
+        }).text('disclaimer.');
+
+        p1.append(lnk);
+        newdiv.append(p1);        
       }
 
       $(document).on('submit','#actionfrm',function(){
