@@ -505,7 +505,8 @@ a.boxclose{
 }
 .popup .content {
   height:60%;
-  width:90%;
+  width:70%;
+  padding-right: 20px;
   overflow: auto;
 }
 
@@ -518,6 +519,8 @@ a.boxclose{
 
 .overlay-li {
   font-size: 12px;
+  width:95%;
+  padding-right: 15px;
 }
 
 .btn-danger {
