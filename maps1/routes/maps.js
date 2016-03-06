@@ -28,9 +28,9 @@ router.get('/', function(req, res, next) {
   collection.find(clause,{'_id': false}).toArray(function(e,docs){ 
     var obj1 = {	
       "type": "FeatureCollection",
-   	  "features": []
+      "features": []
     }
-	
+    
     if(req.query.format == 'CSV') {
       var s = "type,typeid,typetext,comment,icon,link,name,email,date,longitute,latitude\n";
       for(var i = 0; i<docs.length; i++){

@@ -3,6 +3,7 @@ var config = module.exports = {};
 config.env = 'development';
 config.hostname = 'dev.example.com';
 config.mapprefix = 'http://10.1.1.9:3000'
+config.realm = 'http://10.1.1.9:3000/config/'
  
 //mongo database
 config.mongodb = {};

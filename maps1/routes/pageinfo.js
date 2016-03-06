@@ -18,6 +18,12 @@ router.post('/', function(req, res, next) {
 	var layers = req.app.get('layers');
 	var collection = layers.db.collection(cfg.mongodb.pageinfo);
 
+	if(req.body.secretword != 'swiftparrot') {
+		res.status(403);
+		res.send({"result": "authorisation failed"});
+		res.end();
+	}
+
 	if(req.body.action=='update'){
 		collection.updateOne(
 		{

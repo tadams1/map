@@ -1,7 +1,7 @@
 <html>
 <title>Shorebird Conservation Map | BirdLife Australia</title>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ6LMGS6ebrYR_ABSnMfudwc7sgwgoTWg"></script>   
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXm4Twg-7FTOODJX9YIm7futuz4lHTNxM&libraries=places"></script>   
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -28,7 +28,8 @@
     var mapOptions = {
       zoom: 4,
       center: {lat: -28, lng: 137.883},
-      mapTypeId: google.maps.MapTypeId.TERRAIN,
+      mapTypeId: google.maps.MapTypeId.SATELLITE,
+
       streetViewControl: false
     };
 
@@ -53,7 +54,8 @@
         myHTML += "<b>Link to futher details:</b>   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><br>";
       }
 
-      myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname");
+      myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname").charAt(0).toUpperCase() + ".";
+      myHTML += "<img border='0' align='right' src='"+ event.feature.getProperty('filelink') + "'' />"
       infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
       infowindow.setPosition(event.latLng);
       infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
@@ -64,6 +66,34 @@
     lastname = localStorage.getItem('lastname');
     youremail = localStorage.getItem('youremail');
 
+    var input = document.getElementById('pac-input');
+
+    var input1 = document.getElementById('pac-input1');
+    var searchBox = new google.maps.places.SearchBox(input);
+
+    theMap.controls[google.maps.ControlPosition.TOP_RIGHT].push(input1);
+    theMap.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+
+    theMap.addListener('bounds_changed', function() {
+      searchBox.setBounds(theMap.getBounds());
+    });
+
+    searchBox.addListener('places_changed', function() {
+      var places = searchBox.getPlaces();
+
+      if (places.length == 0) {
+        return;
+      }
+      place = places[0];
+
+            theMap.setCenter(place.geometry.location);
+            theMap.setZoom(13);
+           if(theMarker != null) {
+             theMarker.setPosition(place.geometry.location);      
+              lookupLocation();
+            }
+
+    });
 
 
     theMap.data.loadGeoJson(pageInfo.mapprefix + '/maps?type=ALL');
@@ -84,7 +114,7 @@
         });
 
        scount = new google.maps.FusionTablesLayer({
-          map: map,
+          map: theMap,
           heatmap: { enabled: false },
           query: {
             select: "col117",
@@ -180,6 +210,7 @@
         var async = true;
 
         request.open(method, url, async);
+        console.log("calling lookupLocation");
         request.onreadystatechange = function(){
           if(request.readyState == 4 && request.status == 200){
             var data = JSON.parse(request.responseText);
@@ -191,7 +222,7 @@
         request.send();
       }
 
-      function saveLocation(savetype) {
+      function saveLocation(savetype, theData) {
         firstname = $( '#' + savetype + 'firstname').val();
         lastname = $( '#' + savetype + 'lastname').val();
         youremail = $( '#' + savetype + 'emailaddr').val();
@@ -200,35 +231,26 @@
         localStorage.setItem('lastname', lastname);
         localStorage.setItem('youremail', youremail);
         var cmt = $('textarea#' + savetype + 'comment').val();
-        var dt = new Date();   
-        var newJSON = {
-          "type": "Feature",
-          "properties": {
-            "type": savetype,
-            "typeid": $('#select'+savetype + ' option:selected').val(),
-            "typetext": $('#select'+savetype + ' option:selected').text(),
-            "comment": cmt,
-            "icon": "images/" + savetype + "marker.png",
-            "link": $( '#' + savetype + 'linkaddr').val(),
-            "validated": false,
-            "lastname": lastname,
-            "firstname": firstname,
-            "youremail": youremail,
-            "datesaved":  new Date($('#' + savetype + 'date').val())
-          },
-          "geometry": 
-          {
-            "type": "Point",
-            "coordinates": [theMarker.position.lng(), theMarker.position.lat()]
-          }
-        }
+     
+
+        theData.append('type', savetype);
+        theData.append('typeid', $('#select'+savetype + ' option:selected').val());
+        theData.append('typetext', $('#select'+savetype + ' option:selected').text());
+        theData.append('long', theMarker.position.lng());    
+        theData.append('lat', theMarker.position.lat());
+      
         $.ajax({
           type: 'POST',
           url: 'mapview',
-          data: JSON.stringify(newJSON),
-          success: function(data) { alert('data: ' + data); },
-          contentType: "application/json",
-          dataType: 'json'
+          contentType: 'multipart/form-data',
+          data: theData,
+            async: true,
+            success: function (msg) {
+                alert(msg)
+            },
+            cache: false,
+            contentType: false,
+            processData: false
         });
 
         showOverlay(savetype);
@@ -628,6 +650,16 @@
         ename.appendTo(l6);
         newdiv.append(l6);  
 
+        var l5c = $('<label>').attr('for', threattype + 'lastname').text('Upload a photo (optional)');
+        var inamelast = $("<input>").attr({
+          id: threattype + 'filename',
+          type: 'file',
+          name: 'image',
+        });
+        inamelast.appendTo(l5c);
+        newdiv.append(l5c);
+
+
         newdiv.append("<br>"); 
         var b=$('<input/>').attr({
           type: "submit",
@@ -651,12 +683,14 @@
       }
 
       $(document).on('submit','#actionfrm',function(){
-        saveLocation('action');
+        var formData = new FormData($(this)[0]);
+        saveLocation('action', formData);
         return false;
       })
 
       $(document).on('submit','#threatfrm',function(){
-        saveLocation('threat');
+        var formData = new FormData($(this)[0]);
+        saveLocation('threat', formData);
         return false;
       })
 
@@ -751,6 +785,9 @@
     </div>
   </div>
 </div>
+
+<input id="pac-input" class="searchbox" type="text" placeholder="Enter suburb or postcode">
+<input id="pac-input1" class="btn-danger" type="button" value="Find me" onclick='findMe(true)'>
 
 
 
