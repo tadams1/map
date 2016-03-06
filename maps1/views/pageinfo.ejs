@@ -30,7 +30,7 @@
 
 
   function buildPage() {
-
+ 
     var pageinfo;      
     pageinfo = <%- pageinfo %>;
     var c = $('<table>').attr({
@@ -96,18 +96,18 @@
     addColumn("", r, "type", "add");
     addColumn("", r, "title", "add");
 
-   var iname = $("<input>").attr({
-       class: "add-btn",
-       type: "button",
-       value: "add"
-     });
-      var cchk = $('<td>').attr({
-       class: 'col-lg-1'
-     });
-      iname.appendTo(cchk);
-      cchk.appendTo(r);
+    var iname = $("<input>").attr({
+     class: "add-btn",
+     type: "button",
+     value: "add"
+   });
+    var cchk = $('<td>').attr({
+     class: 'col-lg-1'
+   });
+    iname.appendTo(cchk);
+    cchk.appendTo(r);
 
-      r.appendTo(c);
+    r.appendTo(c);
 
     c.appendTo($('#thediv'));
 
@@ -138,7 +138,7 @@
       var r = $(this).attr('rowid');
       var newJSON = {
         _id: $(this).attr('actionid'),
-        action: 'delete',
+        action: 'delete'
       } 
       $.ajax({
         type: 'POST',
@@ -174,16 +174,13 @@
         dataType: 'json'
       });
     });
-
-
   }
-
-
-
   $(document).ready(buildPage);
 
 
 </script>
 <body>
+  <h3>Configuration Page:</h3>
+  <br>
   <div id="thediv"></div>
 </body>
