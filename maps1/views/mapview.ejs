@@ -100,18 +100,18 @@
         //theMap.data.loadGeoJson('n');
 
         sbarea = new google.maps.FusionTablesLayer({
-          map: theMap,
-          heatmap: { enabled: false },
-          query: {
-            select: "col133",
-            from: "1-n3pOFdEKjunwq__ZG8uCr1L2c28OwKdJKE_fc2i",
-            where: ""
-          },
-          options: {
-            styleId: 2,
-            templateId: 2
-          }
-        });
+      map: theMap,
+      heatmap: { enabled: false },
+      query: {
+        select: "col133",
+        from: "1Ag1xo11BXDZZp_wgz4v17aprdjXazvAc_D9G-RzB",
+        where: ""
+      },
+      options: {
+        styleId: 2,
+        templateId: 2
+      }
+    });
 
        scount = new google.maps.FusionTablesLayer({
           map: theMap,
@@ -246,7 +246,7 @@
           data: theData,
             async: true,
             success: function (msg) {
-                alert(msg)
+                //alert(msg)
             },
             cache: false,
             contentType: false,

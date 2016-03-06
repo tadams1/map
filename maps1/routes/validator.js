@@ -2,10 +2,12 @@ var express = require('express');
 var router = express.Router();
 var cfg = require('../config')
 var ObjectID = require('mongodb').ObjectID;
+var passwordless = require('passwordless');
+
 
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', passwordless.restricted(), function(req, res, next) {
 	var layers = req.app.get('layers');
 	var collection = layers.db.collection(cfg.mongodb.col);
 
@@ -15,7 +17,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', passwordless.restricted(), function(req, res, next) {
   var layers = req.app.get('layers');
   var collection = layers.db.collection(cfg.mongodb.col);
   console.log(req.body.valid.length);

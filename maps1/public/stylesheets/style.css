@@ -382,6 +382,9 @@ label {
     padding: 15px;
     background-color: #FFFFFF;
     z-index: 10000;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+  
 }
 
 a.boxclose{
