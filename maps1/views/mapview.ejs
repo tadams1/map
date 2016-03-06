@@ -5,6 +5,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link href='http://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
 <link href="stylesheets/style.css" rel="stylesheet" type="text/css">
 
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -104,7 +105,7 @@
           heatmap: { enabled: false },
           query: {
             select: "col133",
-            from: "1-n3pOFdEKjunwq__ZG8uCr1L2c28OwKdJKE_fc2i",
+            from: "1Ag1xo11BXDZZp_wgz4v17aprdjXazvAc_D9G-RzB",
             where: ""
           },
           options: {
@@ -408,7 +409,7 @@
         var newdiv = $("<div id='accordion' class='accordion'><div>");
         newdiv.appendTo('#rightpane');
 
-        $('#accordion').append('<div><h3>Actions<img src="images/actionmarker.png" /></h3><div id="actiontypechk"></div></div><div><h3>Threats <img src="images/threatmarker.png" /></h3><div id="threattypechk"></div></div><div><h3>Layers</h3><div id="layertypechk"</div></div>');
+        $('#accordion').append('<div><h3>Actions<img src="images/actionmarker.png" /></h3><div id="actiontypechk"></div></div><div><h3>Threats <img src="images/threatmarker.png" /></h3><div id="threattypechk"></div></div><div><h3>Layers<img src="images/layers.png"></h3><div id="layertypechk"</div></div>');
         $( "#accordion" ).accordion({
           header: "> div > h3",
           collapsible: true,
@@ -427,22 +428,9 @@
         $('#rightpane').append('<img id="imgoverlay" src="images/spin.gif" /><p>');
         $("#imgoverlay").hide();
 
-        var r=$('<input/>').attr({
-          type: "button",
-          id: "find",
-          value: 'Zoom to your location',
-          onclick: 'findMe(false)',
-          class: 'btn-danger'
-        });
-        $('#rightpane').append(r);
+        
 
-        $('#rightpane').append("<br><br>");
-        newdiv.append('<br><br>');
-        var lnk = $('<a>').attr({
-          href: '#popup1',
-          class: 'linkstyle'
-        }).text('Disclaimer');
-
+        
         
         $('#rightpane').append(lnk);
         current = "R";
@@ -527,19 +515,13 @@
         newdiv.append('<img id="imgoverlay" src="images/spin.gif" /><p>');
         $("#imgoverlay").hide();
 
-        var r=$('<input/>').attr({
-          type: "button",
-          id: "find",
-          value: 'Find your location',
-          onclick: 'findMe(true)',
-          class: 'btn-danger'
-        });
-        newdiv.append(r);
 
         var l =$('<label>/>').attr({
           id: "location",
         });
-        l.text('Or drag the marker on the map. Zoom in and out using your mouse or +/- the buttons on the map.');
+        
+
+        l.text('Search for your location using the box on the map or by dragging the marker. Zoom in and out using your mouse or +/- the buttons on the map.');
         newdiv.append(l);
 
 
@@ -562,7 +544,7 @@
         newdiv.append(' ');
         var lnk = $('<a>').attr({
           href: '#popup2'
-        }).text(threattype.charAt(0).toUpperCase() + threattype.slice(1) + ' types');
+        }).text(threattype.charAt(0).toUpperCase() + threattype.slice(1) + ' types explained');
         lnk.appendTo(newdiv);
         newdiv.append('<br><br>');
 
@@ -571,7 +553,7 @@
         //$('#theImg').attr('textinfo', $('option:selected', this).attr('title'));
       });
 
-        var l2 = $('<label>').attr('for', threattype + 'comment').text("Describe your observation (<100 characters)");
+        var l2 = $('<label>').attr('for', threattype + 'comment').text("Describe the " + threattype + " (<100 characters)");
         var ta = $('<textarea>').attr({
           name: "Description",
           id: threattype + 'comment',
@@ -602,6 +584,17 @@
         });
         ilink.appendTo(l4);
         newdiv.append(l4);
+
+        var l5c = $('<label>').attr('for', threattype + 'lastname').text('Upload a photo (optional)');
+        var inamelast = $("<input>").attr({
+          id: threattype + 'filename',
+          type: 'file',
+          name: 'image',
+        });
+        inamelast.appendTo(l5c);
+        newdiv.append(l5c);
+
+
 
         var str1 = firstname;
         if(firstname == null) {
@@ -650,16 +643,7 @@
         ename.appendTo(l6);
         newdiv.append(l6);  
 
-        var l5c = $('<label>').attr('for', threattype + 'lastname').text('Upload a photo (optional)');
-        var inamelast = $("<input>").attr({
-          id: threattype + 'filename',
-          type: 'file',
-          name: 'image',
-        });
-        inamelast.appendTo(l5c);
-        newdiv.append(l5c);
-
-
+        
         newdiv.append("<br>"); 
         var b=$('<input/>').attr({
           type: "submit",
@@ -668,15 +652,17 @@
           class: 'btn-danger'
         });
         newdiv.append(b);
+        newdiv.append("<br>"); 
+        newdiv.append("<br>"); 
 
         var p1 = $('<p>').attr({
-          class: 'text-muted'
-        }).text('Your last name and email address will not be published. We may use your email address to contact you for further details about your observation. Read the map ');
+          class: 'small'
+        }).text('Your last name and email address will not be published. We may use your email address to contact you for further details about your observation. ');
 
         var lnk = $('<a>').attr({
           href: '#popup1',
           class: 'linkstyle'
-        }).text('disclaimer.');
+        }).text('Map disclaimer.');
 
         p1.append(lnk);
         newdiv.append(p1);        
@@ -726,24 +712,26 @@
     </script>
 
 
-    <header>
+ <div id="header-container">
+<div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-1"><img src="images/birdlife-australia-logo.png" alt="BirdLife Australia"> </div>
 
-      <div id="header-container">
+  
+    <div class="col-sm-5"><h1 id="title">Shorebird Conservation Map</h1> </div>
 
-       <h1 id="title">Shorebird Conservation Map (BETA)</h1>
-
-       <nav>
+    <div class="col-sm-6">
+          <nav>
          <ul class="nav nav-pills">
           <li role="presentation" id='records'><a href="mapview">Home</a></li>
           <li role="presentation" id='logaction'><a href="mapview?view=action">Register an action</a></li>
           <li role="presentation" id='logthreat'><a href="mapview?view=threat">Log a threat</a></li>
         </ul>
       </nav>
-
-
-    </div>
-  </header>
-
+</div>
+        </div>
+      </div>
+</div>
 
   <body>
     <div class="wrapper">
@@ -761,10 +749,42 @@
        <div id="footer-container-2">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-12"><p>This is a beta version of a map that will be published on a page <a href="http://birdlife.org.au/campaigns/track-local-challenges-and-wins">within the BirdLife Australia website.</a> Please tell us what you think by <a href="https://www.surveymonkey.com/r/FJ9TL86" target="_blank">completing this short questionnaire</a>. 
-            <p><b>All data is for demonstration purposes only and will be cleared before the map is made publicly available.</b></p>
-              <a href="https://www.surveymonkey.com/r/FJ9TL86" class="btn btn-warning" role="button" target="_blank">Provide feedback now</a>
-              <br>
+            <div class="col-sm-8"><p>
+<h3>Welcome to Australia’s first interactive Shorebird Conservation Map! </h3>
+<p>This tool allows you to highlight conservation successes and challenges in your local area. More importantly, though, it is about celebrating, enjoying and sharing all the great things that are happening for shorebirds around the country. <a href="http://birdlife.org.au/campaigns">Find out more about shorebirds</a></p>
+
+<p><b>Disclaimer</b></p>
+<p>The information and material hosted on the Shorebird Conservation Map is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. <a href="#popup1">Map disclaimer</a></p>
+       
+
+          </div>
+
+
+          <div class="col-sm-4">
+            <ul class="soc">
+              <li>
+                <a class="soc-twitter" href="https://twitter.com/BirdlifeOz"></a>
+              </li>
+              <li>
+                <a class="soc-facebook" href="https://www.facebook.com/BirdLifeAustralia"></a>
+              </li>
+              <li>
+                <a class="soc-google" href="https://plus.google.com/112350676933876368379/posts"></a>
+              </li>
+              <li>
+                <a class="soc-youtube" href="https://www.youtube.com/channel/UCTKLS4Otm3PmpTBGv3nEC6A"></a>
+              </li>
+              <li>
+                <a class="soc-instagram soc-icon-last" href="https://www.instagram.com/birdlifeoz/"></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+
 
   
 <div id="popup1" class="overlap">
@@ -786,10 +806,8 @@
   </div>
 </div>
 
-<input id="pac-input" class="searchbox" type="text" placeholder="Enter suburb or postcode">
-<input id="pac-input1" class="btn-danger" type="button" value="Find me" onclick='findMe(true)'>
-
-
+<input id="pac-input" class="searchbox" type="text" placeholder="Type here to search for a location">
+<input id="pac-input1" class="btn btn-danger btn-md" type="button" value="Find me" onclick='findMe(true)'>
 
 
               <br>
