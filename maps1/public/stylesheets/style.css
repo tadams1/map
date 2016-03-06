@@ -492,8 +492,8 @@ a.boxclose{
 }
 .popup .close {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 5x;
+  right: 20px;
   transition: all 200ms;
   font-size: 30px;
   font-weight: bold;
@@ -529,6 +529,8 @@ a.boxclose{
 }
 .popup .content {
   height:60%;
+  width:70%;
+  padding-right: 20px;
   overflow: auto;
 }
 
@@ -542,6 +544,8 @@ a.boxclose{
 .overlay-li {
   font-family: Arial;
   font-size: 12px;
+  width:95%;
+  padding-right: 15px;
 }
 
 .btn-danger {
