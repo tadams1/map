@@ -38,7 +38,7 @@ router.post('/', function(req, res, next) {
   				"typetext": fields['typetext'],
   				"comment": fields['type'],
   				"icon": "images/" + fields['type'] + "marker.png",
-  				"link": fields['type'],
+  				"link": fields['Description'],
   				"validated": false,
   				"lastname": fields['lastname'],
   				"firstname": fields['firstname'],
