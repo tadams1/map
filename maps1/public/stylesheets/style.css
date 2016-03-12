@@ -17,10 +17,10 @@ color:#5F5F5F;
 }
 
 #title{
-  font-size: 30px;
+  font-size: 2.5em;
   float: left;
   color:#157096;
-  padding-top:10px;
+  padding-bottom:10px;
   padding-left:20px;
   font-family: 'Oleo Script', cursive;
   }
@@ -28,6 +28,7 @@ color:#5F5F5F;
 nav{
   float: right;
   margin-top:20px;
+  padding-bottom:10px;
   padding-right:10px;
   padding-left: 5px;
   font-size: 16px;
@@ -100,7 +101,7 @@ h4 {
 .center.pane {
     width: 70%;
     padding: 0px;
-    background-color: #B3D1FF;
+    background-color: #1C2D61;
 }
 
 
@@ -176,6 +177,7 @@ ul.view-checkbox li label {
 label {
   font-weight:normal !important;  
   color: #494949;
+  display: block;
   overflow: auto;
 }
 
@@ -214,18 +216,17 @@ label {
 /* FOOTER */
 
 #footer-container-1 {
-  background-color: #494949;
-  height:45px;
+  background-color: #EAE9E9;
+  height: relative;
   border-top: 0px solid #494949;
   margin-top: 0px;
   padding-top: 5px;
-  text-align: center;
-  color: #FFFFFF;
+  text-align: left;
 }
 
 #footer-container-2 {
-  background-color: #EAE9E9;
-  height: 170px;
+  background-color: #FFFFFF;
+  height: relative;
   border-top: 0px solid #494949;
   margin-top: 0px;
   padding-top: 5px;
@@ -234,14 +235,26 @@ label {
 }
 
 #footer-container-3 {
-  background-color: #FFFFFF;
-  height: 35px;
+  background-color: #494949;
+  height: relative;
   border-top: 5px solid #494949;
   margin-top: 0px;
   padding-top: 5px;
-  text-align: right;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+
+#footer-container-4 {
+  background-color: #FFFFFF;
+  height: relative;
+  border-top: 5px solid #494949;
+  margin-top: 0px;
+  padding-top: 5px;
+  text-align: left;
   color: #494949;
 }
+
 
 #footer-container footer {
   color: 494949;
@@ -563,9 +576,6 @@ a.boxclose{
   padding-right: 15px;
 }
 
-.btn-danger {
-  font-family: arial;
-}
 
 
 /**********
@@ -658,4 +668,17 @@ a.boxclose{
   bottom: 0;
     height: 550px;
     overflow: hidden;
+}
+
+.col-sm-1
+{
+  font-family: "Times";
+  font-size: 12px;
+}
+
+.btn-success
+{
+  margin-left:10px;
+ margin-bottom:50px;
+
 }
