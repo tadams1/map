@@ -529,7 +529,7 @@
         });
         
 
-        l.text('Search for your location using the box on the map or by dragging the marker. Zoom in and out using your mouse or +/- the buttons on the map.');
+        l.text('Search using the box on the map or by dragging the marker. Zoom in and out with your mouse or the +/-  buttons on the map.');
         newdiv.append(l);
 
 
@@ -542,7 +542,6 @@
         buildOverlay(threattype, pageInfo.types);
         newdiv.append(l1);
 
-        newdiv.append('<br>');
 
         var img = $('<img>').attr({
           class: "imgInfo",
@@ -657,7 +656,7 @@
           type: "submit",
           id: "save",
           value: 'Save ' + threattype,
-          class: 'btn-danger'
+          class: 'btn btn-danger btn-md'
         });
         newdiv.append(b);
         newdiv.append("<br>"); 
@@ -754,19 +753,14 @@
 
       <footer>
 
-       <div id="footer-container-2">
+       <div id="footer-container-1">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-8"><p>
-<h3>Welcome to Australia’s first interactive Shorebird Conservation Map! </h3>
-<p>This tool allows you to highlight conservation successes and challenges in your local area. More importantly, though, it is about celebrating, enjoying and sharing all the great things that are happening for shorebirds around the country. <a href="http://birdlife.org.au/campaigns">Find out more about shorebirds</a></p>
-
-<p><b>Disclaimer</b></p>
-<p>The information and material hosted on the Shorebird Conservation Map is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. <a href="#popup1">Map disclaimer</a></p>
-       
-
-          </div>
-
+            <div class="col-sm-8">
+<p>Populations of some migratory shorebirds – such as the Eastern Curlew – have declined by up to 85%. However, strong local community action can help turn the tide to achieve conservation successes.</p>
+<p><strong>Help us track shorebird conservation successes and challenges in your local areaby logging them on this map.
+</strong></p>
+</div>
 
           <div class="col-sm-4">
             <ul class="soc">
@@ -792,6 +786,52 @@
 
 
 
+<div id="footer-container-2">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6">
+<h4>What you can do:</h4>
+     Threats to shorebirds include industrial and residential developments, invasive species, pollution, and recreational disturbance. <b>If you have observed these threats please log them on our map</b>. This will help us identify sites requiring urgent conservation action.
+      <br>
+        <br>
+    <a href="mapview?view=threat" class="btn btn-danger">Log a threat</a>
+    <br>ack shorebird conservation successes and challenges in your local areaby logging them on this map.
+</strong></p>
+</div>
+
+            <div class="col-sm-6">
+<h4>What you can do:</h4>
+
+ Threats to shorebirds include industrial and residential developments, invasive species, pollution, and recreational disturbance. <b>If you have observed these threats please log them on our map</b>. This will help us identify sites requiring urgent conservation action.
+      <br>
+        <br>
+    <a href="mapview?view=threat" class="btn btn-danger">Log a threat</a>
+    <br>
+</div>
+
+</div></div>
+
+
+
+<div id="footer-container-3">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12">Shorebirds need your help. Act now to protect the species and places at risk. <a href="http://birdlife.org.au/campaigns/how-you-can-help" class="btn btn-default btn-sm">Get involved</a> or <a href="http://www.birdlife.org.au/current-appeal" class="btn btn-default btn-sm">Donate</a> 
+        </div>
+      </div>
+    </div>
+ </div>
+
+<div id="footer-container-4">
+ <div class="container-fluid">
+<div class="row">
+        <div class="col-sm-12">
+<p><b>Disclaimer</b></p>
+<p>The information and material hosted on the Shorebird Conservation Map is compiled by members of the public for the purposes of education and awareness of Australian Shorebirds. <a href="#popup1">Map disclaimer</a></p>
+</div>
+</div>
+</div>
+</div>
 
 
   

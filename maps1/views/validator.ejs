@@ -1,5 +1,5 @@
 	<html>
-	<title>Validator</title>
+	<title>Validate New Records - Shorebird Conservation Map</title>
 
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -13,7 +13,7 @@
 
 		function addColumn(val, r) {
 			var c = $('<td>').attr({
-				class: 'col-lg-1'
+				class: 'col-sm-1'
 			});
 			c.append(val);
 			c.appendTo(r);
@@ -21,8 +21,9 @@
 
 		function addImage(val, r) {
 			var c = $('<td>').attr({
-				class: 'col-lg-1'
+				class: 'col-sm-1'
 			});
+<<<<<<< HEAD
 			if(val=="NOFILE") {
 				c.append("NO FILE");
 			} else {
@@ -35,6 +36,16 @@
 				});
 				c.append(b);
 			}
+=======
+			var b=$('<input/>').attr({
+				type: "button",
+				id: "find",
+				value: 'Show Image',
+				onclick: 'showImage("' + val + '")',
+				class: 'btn-default'
+			});
+			c.append(b);
+>>>>>>> origin/master
 			c.appendTo(r);
 		}
 
@@ -71,51 +82,29 @@
 				class: "row"
 			});
 
+
+			addColumn('validate',hr);
+
 			addColumn('delete', hr);
+
 			addColumn('type', hr);
 			addColumn('typeid', hr);
 			addColumn('typetext',hr);
-			addColumn('title',hr);
 			addColumn('comment',hr);
 			addColumn('link',hr);
+			addColumn('lat',hr);
+			addColumn('long',hr);
+			addColumn('date',hr);
 			addColumn('first name',hr);
 			addColumn('last name',hr);
 			addColumn('email',hr);
 			addColumn('image',hr);
-			addColumn('validate',hr);
-
 			hr.appendTo(c);
 
 			for(var i=0;i<records.length;i++) {
 				var r = $('<tr>').attr({
 					class: "row"
 				});
-
-				var dd = $('<td>').attr({
-					class: 'col-lg-1'
-				});
-
-				var b=$('<input/>').attr({
-					type: "button",
-					id: "find",
-					value: 'Delete',
-					onclick: 'deleteRecord("' + records[i]._id + '")',
-					class: 'btn-danger'
-				});
-				b.appendTo(dd);
-				dd.appendTo(r);
-				
-
-				addColumn(records[i].properties.type, r);
-				addColumn(records[i].properties.typeid, r);
-				addColumn(records[i].properties.typetext,r);
-				addColumn(records[i].properties.title,r);
-				addColumn(records[i].properties.comment,r);
-				addColumn(records[i].properties.link,r);
-				addColumn(records[i].properties.firstname,r);
-				addColumn(records[i].properties.lastname,r);
-				addColumn(records[i].properties.youremail,r);
-				addImage(records[i].properties.filelink,r);
 
 
 				var iname = $("<input>").attr({
@@ -129,6 +118,37 @@
 				});
 				iname.appendTo(cchk);
 				cchk.appendTo(r);
+
+				var dd = $('<td>').attr({
+					class: 'col-lg-1'
+				});
+
+						var b=$('<input/>').attr({
+					type: "button",
+					id: "find",
+					value: 'Delete',
+					onclick: 'deleteRecord("' + records[i]._id + '")',
+					class: 'btn-danger btn-sm'
+				});
+				b.appendTo(dd);
+				dd.appendTo(r);
+
+				
+
+				addColumn(records[i].properties.type, r);
+				addColumn(records[i].properties.typeid, r);
+				addColumn(records[i].properties.typetext,r);
+				addColumn(records[i].properties.comment,r);
+				addColumn(records[i].properties.link,r);
+				addColumn(records[i].geometry.coordinates[1],r);
+				addColumn(records[i].geometry.coordinates[0],r);
+				addColumn(records[i].properties.datesaved,r);
+				addColumn(records[i].properties.firstname,r);
+				addColumn(records[i].properties.lastname,r);
+				addColumn(records[i].properties.youremail,r);
+				addImage(records[i].properties.filelink,r);
+
+
 				r.appendTo(c);
 			}
 			c.appendTo($('#thediv'));
@@ -191,11 +211,30 @@
 
 
 	</script>
+
+	<header>
+
+<div id="header-container">
+<div class="container-fluid">
+        <div class="row">
+        <div class="col-sm-1"><img src="images/birdlife-australia-logo.png" alt="BirdLife Australia"> </div>
+    <div class="col-sm-11"><h1 id="title">Shorebird Conservation Map</h1> 
+    </div>
+    </div>
+    
+      <div class="row">
+        <div class="col-sm-12">
+    <h1> Delete or verify new records</h1></div>
+    
+        </div>
+      </div>
+</div>
+
 	<body>
 		
 		<div id="thediv"></div>
 
-		<button id="validator" class="valid-btn">Validate</button>
+		<button id="validator" class="btn btn-success btn-mf">Validate</button>
 		
 	</body>
 	</html>
