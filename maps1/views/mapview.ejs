@@ -63,16 +63,12 @@
         myHTML += "<b>Link to futher details:</b>   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><br>";
       }
 
-      myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname").charAt(0).toUpperCase() + ".";
-<<<<<<< HEAD
-      myHTML += "</div><div class=aspect-ratio aspect-ratio-1-1 img-frame'><img border='0' align='right' class='fit-img fit-img-tight' src='"+ event.feature.getProperty('filelink') + "'' /></div>"
-      infowindow.setContent("<div style='width:150px; text-align: left; display:block;'>" + myHTML + "</div>");
-=======
+      myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname").charAt(0).toUpperCase() + ".</div>";
+
       if(event.feature.getProperty('filelink') != "NOFILE") {
-        myHTML += "<img border='0' align='right' src='"+ event.feature.getProperty('filelink') + "'' />"
+        myHTML += "<div class=aspect-ratio aspect-ratio-1-1 img-frame'><img border='0' align='right' class='fit-img fit-img-tight' src='"+ event.feature.getProperty('filelink') + "'' /></div>"
       }
-      infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
->>>>>>> origin/master
+      infowindow.setContent("<div style='width:150px; text-align: left; display:block;'>" + myHTML + "</div>");
       infowindow.setPosition(event.latLng);
       infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
       infowindow.open(theMap);
