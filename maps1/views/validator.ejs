@@ -23,14 +23,18 @@
 			var c = $('<td>').attr({
 				class: 'col-lg-1'
 			});
-			var b=$('<input/>').attr({
-				type: "button",
-				id: "find",
-				value: 'Show Image',
-				onclick: 'showImage("' + val + '")',
-				class: 'btn-danger'
-			});
-			c.append(b);
+			if(val=="NOFILE") {
+				c.append("NO FILE");
+			} else {
+				var b=$('<input/>').attr({
+					type: "button",
+					id: "find",
+					value: 'Show Image',
+					onclick: 'showImage("' + val + '")',
+					class: 'btn-danger'
+				});
+				c.append(b);
+			}
 			c.appendTo(r);
 		}
 

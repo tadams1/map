@@ -13,7 +13,6 @@ var email   = require("emailjs");
 var session = require('express-session');
 var sMongoStore = require('connect-mongo')(session);
 
-
 var mapview = require('./routes/mapview');
 var maps = require('./routes/maps');
 var about = require('./routes/about');
@@ -30,9 +29,9 @@ passwordless.init(new pMongoStore(pathToMongoDb));
 
 
 var smtpServer  = email.server.connect({
-   user:    'maptoken@ecocene.com.au', 
-   password: '[P!t%(#xee]L', 
-   host:    'syd-s19e.hosting-service.net.au',
+   user: process.env.EMAIL_ACCOUNT,
+   password: process.env.EMAIL_PWD,
+   host: process.env.EMAIL_HOST,
    ssl:     true
 });
 
@@ -67,7 +66,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-    secret: 'foo',    
+    secret: process.env.SESSION_SECRET,    
     store: new sMongoStore({ url: cfg.mongodb.url })
 
 }));
@@ -80,6 +79,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(qt.static(path.join(__dirname, 'public/uploadedimages/')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {

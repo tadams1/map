@@ -14,18 +14,18 @@ function getCSVData(val) {
 }
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-	var layers = req.app.get('layers');
+  var layers = req.app.get('layers');
 	var collection = layers.db.collection(cfg.mongodb.col);
 
   var clause;
   if(req.query.type == "ALL") {
     clause = {};
   }else if(req.query.type == "ALLTYPE") {
-    clause={"properties.type": req.query.types}
+    clause={"properties.type": req.query.types};
   } else {
     clause={"properties.typeid": req.query.type};
   }
-  collection.find(clause,{'_id': false}).toArray(function(e,docs){ 
+  collection.find(clause,{'_id': 0, "properties.youremail": 0}).toArray(function(e,docs){ 
     var obj1 = {	
       "type": "FeatureCollection",
       "features": []

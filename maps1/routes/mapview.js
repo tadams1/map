@@ -51,8 +51,9 @@ router.post('/', function(req, res, next) {
   				"coordinates": [parseFloat(fields['long']), parseFloat(fields['lat'])]
   			}
   		}
+  		console.log(JSON.stringify(this));
 
-  		if(this.openedFiles.length > 0) {
+  		if(this.openedFiles.size > 0) {
   			var temp_path = this.openedFiles[0].path;
   			var file_name = this.openedFiles[0].name;
 
@@ -77,8 +78,10 @@ router.post('/', function(req, res, next) {
   					}
   				});
   			});
-
-
+  		} 
+  		else
+  		{
+  			 newJSON.properties.filelink = "NOFILE";
   		}
   		console.log('Saving: ' + JSON.stringify(newJSON));
   		layers.savePointer(newJSON);
