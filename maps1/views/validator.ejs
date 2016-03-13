@@ -23,6 +23,20 @@
 			var c = $('<td>').attr({
 				class: 'col-sm-1'
 			});
+<<<<<<< HEAD
+			if(val=="NOFILE") {
+				c.append("NO FILE");
+			} else {
+				var b=$('<input/>').attr({
+					type: "button",
+					id: "find",
+					value: 'Show Image',
+					onclick: 'showImage("' + val + '")',
+					class: 'btn-danger'
+				});
+				c.append(b);
+			}
+=======
 			var b=$('<input/>').attr({
 				type: "button",
 				id: "find",
@@ -31,6 +45,7 @@
 				class: 'btn-default'
 			});
 			c.append(b);
+>>>>>>> origin/master
 			c.appendTo(r);
 		}
 

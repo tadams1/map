@@ -22,6 +22,7 @@
   var sbarea;
   var scount;
   var youremail;
+  var current;
 
 
   function initialize() {
@@ -30,14 +31,14 @@
       zoom: 4,
       center: {lat: -28, lng: 137.883},
       mapTypeId: google.maps.MapTypeId.HYBRID,
-styles: [
+      styles: [
         {
         featureType: "road",
         stylers: [
                  {visibility: "off"}
              ]
         }
-    ],
+      ],
       streetViewControl: false
     };
 
@@ -63,8 +64,15 @@ styles: [
       }
 
       myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname").charAt(0).toUpperCase() + ".";
+<<<<<<< HEAD
       myHTML += "</div><div class=aspect-ratio aspect-ratio-1-1 img-frame'><img border='0' align='right' class='fit-img fit-img-tight' src='"+ event.feature.getProperty('filelink') + "'' /></div>"
       infowindow.setContent("<div style='width:150px; text-align: left; display:block;'>" + myHTML + "</div>");
+=======
+      if(event.feature.getProperty('filelink') != "NOFILE") {
+        myHTML += "<img border='0' align='right' src='"+ event.feature.getProperty('filelink') + "'' />"
+      }
+      infowindow.setContent("<div style='width:150px; text-align: left;'>" + myHTML + "</div>");
+>>>>>>> origin/master
       infowindow.setPosition(event.latLng);
       infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
       infowindow.open(theMap);
@@ -266,7 +274,9 @@ styles: [
 
 
       function findMe(updatemarker) {
-        $("#imgoverlay").show();
+        if(current != 'R') {
+          $("#imgoverlay").show();
+        }
 
         if(navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
@@ -496,6 +506,7 @@ styles: [
 
       function doViewThreats(threattype) {
 
+        current = "V";
         $('#records').removeClass('active');
         $('#log' + threattype).addClass('active');
         if(threattype == 'action') {
