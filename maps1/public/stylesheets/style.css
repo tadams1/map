@@ -680,3 +680,44 @@ a.boxclose{
  margin-bottom:50px;
 
 }
+
+
+/* Image resizing */
+.container-img 
+{
+  width: 150px;
+  margin: 0 auto;
+}
+
+.img-frame {
+  background: #FFFFFF;
+  margin: 10px auto;
+}
+
+/* This is for responsive container with specified aspect ratio */
+.aspect-ratio {
+  position: relative;
+  height: 150px;
+}
+.aspect-ratio-1-1 {
+  padding-bottom: 50%;
+}
+
+/* This is the key part - position and fit the image to the container */
+.fit-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  max-width: 80%;
+  max-height: 90%
+}
+.fit-img-bottom {
+  top: auto;
+}
+.fit-img-tight {
+  max-width: 100%;
+  max-height: 100%
+}
