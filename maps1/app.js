@@ -8,7 +8,7 @@ var common = require('common');
 var layers = require('./layers');
 var cfg = require('./config');
 var passwordless = require('passwordless');
-var pMongoStore = require('passwordless-mongostore=bcrypt-node');
+var pMongoStore = require('passwordless-mongostore-bcrypt-node');
 var email   = require("emailjs");
 var session = require('express-session');
 var sMongoStore = require('connect-mongo')(session);

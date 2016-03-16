@@ -29,16 +29,16 @@ router.post('/', function(req, res, next) {
 	form.on('end', function() {
 
 		var parts = fields['thedate'].split('-');
-  		var dt =  Date(parts[0], parts[1]-1, parts[2]); //
+  		var dt = new Date(parts[0], parts[1]-1, parts[2]); //
   		var newJSON = {
   			"type": "Feature",
   			"properties": {
   				"type": fields['type'],
   				"typeid": fields['typeid'],
   				"typetext": fields['typetext'],
-  				"comment": fields['type'],
+  				"comment": fields['Description'],
   				"icon": "images/" + fields['type'] + "marker.png",
-  				"link": fields['Description'],
+  				"link": fields['linkddr'],
   				"validated": false,
   				"lastname": fields['lastname'],
   				"firstname": fields['firstname'],
@@ -53,7 +53,7 @@ router.post('/', function(req, res, next) {
   		}
   		console.log(JSON.stringify(this));
 
-  		if(this.openedFiles.size > 0) {
+  		if(this.openedFiles[0].size > 0) {
   			var temp_path = this.openedFiles[0].path;
   			var file_name = this.openedFiles[0].name;
 
