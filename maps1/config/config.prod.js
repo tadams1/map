@@ -1,7 +1,6 @@
 var config = module.exports = {};
  
-config.env = 'development';
-config.hostname = 'dev.example.com';
+config.env = 'prod';
 config.mapprefix = 'http://103.18.108.126/'
 
 //mongo database

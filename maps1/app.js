@@ -8,12 +8,12 @@ var common = require('common');
 var layers = require('./layers');
 var cfg = require('./config');
 var passwordless = require('passwordless');
-var pMongoStore = require('passwordless-mongostore');
+var pMongoStore = require('passwordless-mongostore=bcrypt-node');
 var email   = require("emailjs");
 var session = require('express-session');
 var sMongoStore = require('connect-mongo')(session);
 
-var mapview = require('./routes/mapview');
+var index = require('./routes/index');
 var maps = require('./routes/maps');
 var about = require('./routes/about');
 var validator = require('./routes/validator');
@@ -103,7 +103,7 @@ app.get('/auth/google/return',
   passport.authenticate('google', { successRedirect: '/config/pageinfo',
                                     failureRedirect: '/mapview' }));*/
 app.use('/maps', maps);
-app.use('/index', index);
+app.use('/', index);
 app.use('/about', about);
 app.use('/validator', validator);
 app.use('/pageinfo', pageinfo);

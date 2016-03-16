@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 	console.log('in request')
 	console.log("Req:" + layers.strPoints);
 	console.log("PI" + layers.pageInfo);
-	res.render('mapview', { view : "'" + req.query.view + "'", pageInfo: layers.pageInfo});
+	res.render('index', { view : "'" + req.query.view + "'", pageInfo: layers.pageInfo});
 });
 
 router.post('/', function(req, res, next) {
