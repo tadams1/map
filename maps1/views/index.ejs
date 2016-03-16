@@ -124,7 +124,7 @@
         templateId: 2
       }
     });
-       scount = new google.maps.FusionTablesLayer({
+      /* scount = new google.maps.FusionTablesLayer({
           map: theMap,
           heatmap: { enabled: false },
           query: {
@@ -136,7 +136,7 @@
             styleId: 2,
             templateId: 2
           }
-        });
+        });*/
 
 
         theMap.addListener('dragend', function() {
@@ -252,7 +252,7 @@
       
         $.ajax({
           type: 'POST',
-          url: 'mapview',
+          url: '/',
           contentType: 'multipart/form-data',
           data: theData,
             async: true,
@@ -501,7 +501,7 @@
 
       function doViewThreats(threattype) {
 
-        current = "V";
+        current = "V";  
         $('#records').removeClass('active');
         $('#log' + threattype).addClass('active');
         if(threattype == 'action') {
@@ -730,9 +730,9 @@
     <div class="col-sm-6">
           <nav>
          <ul class="nav nav-pills">
-          <li role="presentation" id='records'><a href="mapview">Home</a></li>
-          <li role="presentation" id='logaction'><a href="mapview?view=action">Register an action</a></li>
-          <li role="presentation" id='logthreat'><a href="mapview?view=threat">Log a threat</a></li>
+          <li role="presentation" id='records'><a href="/">Home</a></li>
+          <li role="presentation" id='logaction'><a href="/?view=action">Register an action</a></li>
+          <li role="presentation" id='logthreat'><a href="/?view=threat">Log a threat</a></li>
         </ul>
       </nav>
 </div>
@@ -794,7 +794,7 @@
      Threats to shorebirds include industrial and residential developments, invasive species, pollution, and recreational disturbance. <b>If you have observed these threats please log them on our map</b>. This will help us identify sites requiring urgent conservation action.
       <br>
         <br>
-    <a href="mapview?view=threat" class="btn btn-danger">Log a threat</a>
+    <a href="/?view=threat" class="btn btn-danger">Log a threat</a>
     <br>ack shorebird conservation successes and challenges in your local areaby logging them on this map.
 </strong></p>
 </div>
@@ -805,7 +805,7 @@
  Threats to shorebirds include industrial and residential developments, invasive species, pollution, and recreational disturbance. <b>If you have observed these threats please log them on our map</b>. This will help us identify sites requiring urgent conservation action.
       <br>
         <br>
-    <a href="mapview?view=threat" class="btn btn-danger">Log a threat</a>
+    <a href="/?view=threat" class="btn btn-danger">Log a threat</a>
     <br>
 </div>
 
