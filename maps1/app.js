@@ -13,7 +13,7 @@ var email   = require("emailjs");
 var session = require('express-session');
 var sMongoStore = require('connect-mongo')(session);
 
-var mapview = require('./routes/mapview');
+var mapview = require('./routes/index');
 var maps = require('./routes/maps');
 var about = require('./routes/about');
 var validator = require('./routes/validator');
