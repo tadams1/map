@@ -103,7 +103,7 @@ app.get('/auth/google/return',
   passport.authenticate('google', { successRedirect: '/config/pageinfo',
                                     failureRedirect: '/mapview' }));*/
 app.use('/maps', maps);
-app.use('/index', index);
+app.use('/', index);
 app.use('/about', about);
 app.use('/validator', validator);
 app.use('/pageinfo', pageinfo);
