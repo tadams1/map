@@ -12,7 +12,7 @@ var pMongoStore = require('passwordless-mongostore-bcrypt-node');
 var email   = require("emailjs");
 var session = require('express-session');
 var sMongoStore = require('connect-mongo')(session);
-
+var users = require('./routes/users')
 var index = require('./routes/index');
 var maps = require('./routes/maps');
 var about = require('./routes/about');
@@ -108,4 +108,5 @@ app.use('/about', about);
 app.use('/validator', validator);
 app.use('/pageinfo', pageinfo);
 app.use('/login', login);
+app.use('/users', users);
 module.exports = app;

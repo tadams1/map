@@ -1,0 +1,138 @@
+<html>
+<title>User Admin</title>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+
+
+
+  function addColumn(val, r, name, row) {
+
+    var c = $('<td>').attr({
+      class: 'col-lg-1'
+    });
+
+
+    var ename = $('<input>').attr({
+      type: 'text',
+      name: name + row,
+      id: name + row,
+      value: val,
+      required: true
+    }); 
+    ename.appendTo(c);
+    c.appendTo(r);
+  }
+
+
+  function buildPage() {
+ 
+    var users;      
+    users = <%- users %>;
+    var c = $('<table>').attr({
+      class: "table table-striped table-bordered"
+    });
+
+    var hr = $('<tr>').attr({
+      class: "row"
+    });
+
+    addColumn('email', hr);
+    addColumn('delete', hr);
+    hr.appendTo(c);
+
+    for(var i=0;i<users.length;i++) {
+      var r = $('<tr>').attr({
+       class: "row"
+     });
+
+      addColumn(users[i].email, r, "id", i);
+
+      var iname = $("<input>").attr({
+       class: "delete-btn",
+       type: "button",
+       actionid: users[i]._id,
+       value: "delete"
+     });
+      var cchk = $('<td>').attr({
+        class: 'col-lg-1'
+      });
+      iname.appendTo(cchk);
+      cchk.appendTo(r);
+
+      r.appendTo(c);
+    }
+
+    var r = $('<tr>').attr({
+      class: "row"
+    });
+
+    addColumn("", r, "email", "add");
+    
+    var iname = $("<input>").attr({
+     class: "add-btn",
+     type: "button",
+     value: "add"
+   });
+    var cchk = $('<td>').attr({
+     class: 'col-lg-1'
+   });
+    iname.appendTo(cchk);
+    cchk.appendTo(r);
+
+    r.appendTo(c);
+
+    c.appendTo($('#thediv'));
+
+   
+    $('#thediv').on('click', '.delete-btn', function(){ 
+      var r = $(this).attr('rowid');
+      var newJSON = {
+        _id: $(this).attr('actionid'),
+        action: 'delete'
+      } 
+      $.ajax({
+        type: 'POST',
+        url: 'users',
+        data: JSON.stringify(newJSON),
+        success: function(data) { 
+          console.log('data: ' + data); 
+          location.reload();
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+    });
+
+    $('#thediv').on('click', '.add-btn', function(){ 
+      var r = $(this).attr('rowid');
+      var newJSON = {
+        action: 'add',
+        emailaddr: $( '#emailadd').val()
+      } 
+      $.ajax({
+        type: 'POST',
+        url: 'users',
+        data: JSON.stringify(newJSON),
+        success: function(data) { 
+          console.log('data: ' + data); 
+          location.reload();
+        },
+        contentType: "application/json",
+        dataType: 'json'
+      });
+    });
+  }
+  $(document).ready(buildPage);
+
+
+</script>
+<body>
+  <h3>Configuration Page:</h3>
+  <br>
+  <div id="thediv"></div>
+</body>

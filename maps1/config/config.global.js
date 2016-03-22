@@ -10,4 +10,5 @@ config.mongodb = {};
 config.mongodb.url = 'mongodb://localhost:27017/BirdMap';
 config.mongodb.col = 'MapData';
 config.mongodb.pageinfo = 'pageinfo';
+config.mongodb.users = 'users';
 config.listenport = 3001;

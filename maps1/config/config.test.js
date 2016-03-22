@@ -1,4 +1,5 @@
 var config = module.exports = {};
+var config = module.exports = {};
  
 config.env = 'development';
 config.hostname = 'dev.example.com';
@@ -9,4 +10,5 @@ config.mongodb = {};
 config.mongodb.url = 'mongodb://skzm:Phone123@ds047095.mongolab.com:47095/skzmbird';
 config.mongodb.col = 'test1';
 config.mongodb.pageinfo = 'pageinfo';
+config.mongodb.users = 'users';
 config.listenport = 49500;
