@@ -41,7 +41,7 @@ passwordless.addDelivery(
         var host = cfg.mapprefix;
         console.log("DELIVERY");
         smtpServer.send({
-            text:    'Hello!\nAccess your account here: http://' 
+            text:    'Hello!\nAccess your account here: ' 
             + host + '?token=' + tokenToSend + '&uid=' 
             + encodeURIComponent(uidToSend), 
             from:    'maptoken@ecocene.com.au', 

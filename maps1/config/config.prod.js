@@ -1,7 +1,7 @@
 var config = module.exports = {};
  
 config.env = 'prod';
-config.mapprefix = 'http://103.18.108.126'
+config.mapprefix = 'http://map.birdlife.org.au'
 
 //mongo database
 config.mongodb = {};
