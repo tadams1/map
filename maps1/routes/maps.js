@@ -8,7 +8,7 @@ function getCSVData(val) {
   if(val == null || val == undefined){
     return '';
   } else if (val instanceof Date) {
-    return d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear();
+    return val.getDate() + "-" + (val.getMonth()+1) + "-" + val.getFullYear();
   } else {
     return val.replace(/,/g,'.').replace(/(?:\r\n|\r|\n)/g, '[LF]');
   }
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
   if(req.query.type == "ALL") {
     clause = {};
   }else if(req.query.type == "ALLTYPE") {
-    clause={"properties.type": req.query.types};
+     clause={"properties.type": req.query.types};
   } else {
     clause={"properties.typeid": req.query.type};
   }
