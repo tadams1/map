@@ -150,9 +150,7 @@
 				for(var i=0;i<records.length;i++) {
 					if($('#validatorchk' + i).prop('checked')){
 						valid.push($('#validatorchk' + i).attr('actionid'));
-					} else {
-						invalid.push($('#validatorchk' + i).attr('actionid'));
-					}
+					} 
 				}
 				var newJSON = {
 					"valid": valid, 
