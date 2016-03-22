@@ -238,7 +238,7 @@ label {
   background-color: #494949;
   height: relative;
   border-top: 5px solid #494949;
-  margin-top: 0px;
+  margin-top: 10px;
   padding-top: 5px;
   text-align: center;
   color: #FFFFFF;
@@ -395,7 +395,7 @@ label {
     top: 20%;
     left: 40%;
     width: 40%;
-    height: 40%;
+    height: 60%;
     padding: 15px;
     background-color: #FFFFFF;
     z-index: 10000;
