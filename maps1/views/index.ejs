@@ -1,5 +1,7 @@
 <html>
 <title>Shorebird Conservation Map | BirdLife Australia</title>
+<meta name="description" content="Help us track migratory shorebird conservation successes and challenges in your local area by logging them on this map"/>
+
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXm4Twg-7FTOODJX9YIm7futuz4lHTNxM&libraries=places"></script>   
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -463,12 +465,9 @@
 
         overlaydiv.append("<p><b>Help us spread the word about the plight of migratory shorebirds by sharing this map with your social networks:</b><p>");
 
-
-
-
-        var networks = ['<a class="soc-twitter" href="https://twitter.com/home?status=I’ve+just+added+to+the+@BirdlifeOz+%23Shorebird+Conservation+Map!+Check+it+out+%26+show+your+%23love4shorebirds+today"></a>', 
-        '<a class="soc-facebook" href="http://www.facebook.com/share.php?u=http://www.ecocene.com.au/map/about"></a>', 
-        '<a class="soc-google" href="https://plus.google.com/share?url=http://www.ecocene.com.au/map/about"></a>'
+        var networks = ['<a class="soc-twitter" href="https://twitter.com/home?status=I’ve+just+added+to+the+@BirdlifeOz+%23Shorebird+Conservation+Map!+Check+it+out+%26+show+your+%23love4shorebirds+today+at+map.birdlife.org.au"></a>', 
+        '<a class="soc-facebook" href="http://www.facebook.com/share.php?u=map.birdlife.org.au"></a>', 
+        '<a class="soc-google" href="https://plus.google.com/share?url=map.birdlife.org.au"></a>'
         ];
         var soclist = $('<ul class="soc"></ul>');
         for(var n = 0; n < networks.length; ++n) {
