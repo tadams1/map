@@ -5,6 +5,13 @@ var formidable = require('formidable');
 var util = require('util');
 
 /* GET home page. */
+router.get('/sent', function(req, res, next) {
+	// Connection URL
+	// Use connect m
+	res.render('sent');
+});
+
+
 router.get('/', function(req, res, next) {
 	// Connection URL
 	// Use connect method to connect to the Server
@@ -15,7 +22,6 @@ router.get('/', function(req, res, next) {
 	console.log("PI" + layers.pageInfo);
 	res.render('index', { view : "'" + req.query.view + "'", pageInfo: layers.pageInfo});
 });
-
 router.post('/', function(req, res, next) {
 	var layers = req.app.get('layers');
 

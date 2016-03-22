@@ -73,7 +73,7 @@ app.use(session({
 }));
 
 app.use(passwordless.sessionSupport());
-app.use(passwordless.acceptToken({ successRedirect: '/pageinfo'}));
+app.use(passwordless.acceptToken({ successRedirect: '/validator'}));
 
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
