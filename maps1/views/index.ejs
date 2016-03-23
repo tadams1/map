@@ -59,10 +59,10 @@
         return;
       }  
       var d = new Date(event.feature.getProperty("datesaved"));
-      var myHTML = "<div><b>" + event.feature.getProperty('type').charAt(0).toUpperCase() +  event.feature.getProperty('type').slice(1) +  " type: </b>" + event.feature.getProperty("typetext") + "<br>" + "<b>Dave saved: </b>" + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<br>" + "<b>Details: </b>" + event.feature.getProperty("comment") + "<br>";
+      var myHTML = "<div><b>" + event.feature.getProperty('type').charAt(0).toUpperCase() +  event.feature.getProperty('type').slice(1) +  " type: </b>" + event.feature.getProperty("typetext") + "<br>" + "<b>Date saved: </b>" + d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear()  + "<br>" + "<b>Details: </b>" + event.feature.getProperty("comment") + "<br>";
 
       if(event.feature.getProperty("link").length > 0) {
-        myHTML += "<b>Link to futher details:</b>   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><br>";
+        myHTML += "<b>Futher details:</b>   <a href='" + event.feature.getProperty("link") + "' target='_blank'>" + event.feature.getProperty("link")  + "</a><br>";
       }
 
       myHTML += "<b>Logged by: </b>" + event.feature.getProperty("firstname") + " " + event.feature.getProperty("lastname").charAt(0).toUpperCase() + ".</div>";
@@ -465,9 +465,9 @@
 
         overlaydiv.append("<p><b>Help us spread the word about the plight of migratory shorebirds by sharing this map with your social networks:</b><p>");
 
-        var networks = ['<a class="soc-twitter" href="https://twitter.com/home?status=I’ve+just+added+to+the+@BirdlifeOz+%23Shorebird+Conservation+Map!+Check+it+out+%26+show+your+%23love4shorebirds+today+at+map.birdlife.org.au"></a>', 
-        '<a class="soc-facebook" href="http://www.facebook.com/share.php?u=map.birdlife.org.au"></a>', 
-        '<a class="soc-google" href="https://plus.google.com/share?url=map.birdlife.org.au"></a>'
+        var networks = ['<a class="soc-twitter" href="https://twitter.com/home?status=I’ve+just+added+to+the+@BirdlifeOz+%23Shorebird+Conservation+Map!+Check+it+out+%26+show+your+%23love4shorebirds+today+at+map.birdlife.org.au" target="+blank"></a>', 
+        '<a class="soc-facebook" href="http://www.facebook.com/share.php?u=map.birdlife.org.au" target="blank"></a>', 
+        '<a class="soc-google" href="https://plus.google.com/share?url=map.birdlife.org.au" target="_blank"></a>'
         ];
         var soclist = $('<ul class="soc"></ul>');
         for(var n = 0; n < networks.length; ++n) {
@@ -562,7 +562,7 @@
         //$('#theImg').attr('textinfo', $('option:selected', this).attr('title'));
       });
 
-        var l2 = $('<label>').attr('for', threattype + 'comment').text("Describe the " + threattype + " (<100 characters)");
+        var l2 = $('<label>').attr('for', threattype + 'comment').text("Description (<100 characters)");
         var ta = $('<textarea>').attr({
           name: "Description",
           id: threattype + 'comment',
@@ -759,11 +759,12 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-8">
-<p><br>No group of Australian birds has declined as rapidly over the past 30 years as our migratory shorebirds. Populations of some – such as the Eastern Curlew – have declined by up to 85%. </p>
 
-<p><strong>Help us track shorebird conservation successes and challenges in your local area by logging them on this map. </strong></p>
+    <p><br><strong><big>Help us track shorebird conservation successes and challenges in your local area by logging them on this map. </big></strong></p>
 
-<p>Our new interactive map will allow the community to work with us to develop a comprehensive picture of the state of shorebird habitat across Australia.<p>
+<p>No group of Australian birds has declined as rapidly over the past 30 years as our migratory shorebirds. Populations of some – such as the Eastern Curlew – have declined by up to 85%. </p>
+
+<p>Our new interactive map will allow the community to help us develop a picture of the state of shorebird habitat across Australia. We believe it will show just how much important habitat is being lost to port developments, housing and industry in Australia each year. But it will also put a spotlight on communities taking action to protect the wetlands and shorebirds they love.<p>
 
 
 </p>
@@ -772,19 +773,19 @@
           <div class="col-sm-4">
             <ul class="soc">
               <li>
-                <a class="soc-twitter" href="https://twitter.com/BirdlifeOz"></a>
+                <a class="soc-twitter" href="https://twitter.com/BirdlifeOz" target=_"blank"></a>
               </li>
               <li>
-                <a class="soc-facebook" href="https://www.facebook.com/BirdLifeAustralia"></a>
+                <a class="soc-facebook" href="https://www.facebook.com/BirdLifeAustralia" target=_"blank"></a>
               </li>
               <li>
-                <a class="soc-google" href="https://plus.google.com/112350676933876368379/posts"></a>
+                <a class="soc-google" href="https://plus.google.com/112350676933876368379/posts" target=_"blank"></a>
               </li>
               <li>
-                <a class="soc-youtube" href="https://www.youtube.com/channel/UCTKLS4Otm3PmpTBGv3nEC6A"></a>
+                <a class="soc-youtube" href="https://www.youtube.com/channel/UCTKLS4Otm3PmpTBGv3nEC6A" target=_"blank"></a>
               </li>
               <li>
-                <a class="soc-instagram soc-icon-last" href="https://www.instagram.com/birdlifeoz/"></a>
+                <a class="soc-instagram soc-icon-last" href="https://www.instagram.com/birdlifeoz/" target=_"blank"></a>
               </li>
             </ul>
           </div>
@@ -841,13 +842,23 @@ If you have observed these threats in your local area please log them on our map
 <p><b>Important information</b></p>
 <p>The information and material hosted on the Shorebird Conservation Map is compiled by members of the public for the purposes of education and awareness for Australian Migratory Shorebirds. <a href="#popup1">Map disclaimer</a></p>
 <p><b>Technical specifications</b></p>
-<p>The map has been optimised to work in HTML5 compliant browsers with location services enabled. Please complete our <a href="http://goo.gl/forms/gtZ0wzd8vN" target="_blank">feedback form </a>if you experience any issues, or have any feedback about the map. </p>
+<p>The map has been optimised to work in HTML5 compliant browsers with location services enabled. Please complete our <a href="http://goo.gl/forms/gtZ0wzd8vN" target="_blank">feedback form </a>if you experience any issues, or have any feedback about the map. We are aware of issues with the map displaying on Internet Explorer. </p>
 
 </div>
 </div>
 </div>
 </div>
 
+<div id="footer-container-5">
+ <div class="container-fluid">
+<div class="row">
+        <div class="col-sm-12">
+<p>Birdlife Australia is grateful for the generous donations of members and supporters who made this map possible.</p>
+
+</div>
+</div>
+</div>
+</div>
 
   
 <div id="popup1" class="overlap">
